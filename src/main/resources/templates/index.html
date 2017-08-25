@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="fragments/layout">
+<head>
+   <title>LEMON后台管理系统 - 首页</title>
+</head>
+
+<body class="page-body skin-navy page-light">
+	<!-- 右侧引导菜单 -->
+	<div class="navigation" layout:fragment="navigation">
+		<!-- 导航菜单 User Info, Notifications and Menu Bar -->
+		<nav class="navbar user-info-navbar" role="navigation">
+			<!-- 导航左边显示的功能图标 -->
+			<ul class="user-info-menu left-links list-inline list-unstyled">
+				<!-- 站内信提醒 -->
+				<li><a href="http://www.baidu.com"> <i
+						class="fa-envelope-o"></i> <span class="badge badge-green">15</span>
+				</a></li>
+				<!-- 待处理提醒 -->
+				<li><a href="http://www.baidu.com"> <i class="fa-bell-o"></i>
+						<span class="badge badge-purple">7</span>
+				</a></li>
+			</ul>
+
+
+			<!-- 导航右边显示的功能图标 -->
+			<ul class="user-info-menu right-links list-inline list-unstyled">
+				<!-- 加入always-visible会一直显示搜索输入框 -->
+				<li class="search-form always-visible">
+					<form method="get" action="extra-search.html">
+						<input type="text" name="iptSearch"
+							class="form-control search-field" placeholder="请输入搜索内容" />
+						<button type="submit" class="btn btn-link">
+							<i class="linecons-search"></i>
+						</button>
+					</form>
+
+				</li>
+				<!-- 我的信息下拉 -->
+				<li class="dropdown user-profile" th:include="fragments/resource::userinfo"></li>
+			</ul>
+		</nav>
+	</div>
+	
+	<!-- 具体页面内容 -->
+	<div id="container" layout:fragment="content">
+		<div class="row">
+			<!-- 上面的Item区域 -->
+			<div class="col-sm-3">
+				<div class="xe-widget xe-counter" data-count=".num" data-from="0"
+					data-to="1500" data-duration="4" data-easing="true">
+					<div class="xe-icon">
+						<i class="fa-gift"></i>
+					</div>
+					<div class="xe-label">
+						<strong class="num">100</strong> <span>待发货订单</span>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="col-sm-3">
+
+				<div class="xe-widget xe-counter xe-counter-blue" data-count=".num"
+					data-from="0" data-to="3000" data-duration="4" data-easing="true">
+					<div class="xe-icon">
+						<i class="fa-check-square-o"></i>
+					</div>
+					<div class="xe-label">
+						<strong class="num">3000</strong> <span>已完成订单</span>
+					</div>
+				</div>
+
+			</div>
+			<div class="col-sm-3">
+
+				<div class="xe-widget xe-counter xe-counter-purple"
+					data-count=".num" data-from="1" data-to="117" data-duration="4"
+					data-easing="true">
+					<div class="xe-icon">
+						<i class="fa-google-wallet"></i>
+					</div>
+					<div class="xe-label">
+						<strong class="num">120</strong> <span>待退款订单</span>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="col-md-3">
+
+				<div class="xe-widget xe-counter xe-counter-info" data-count=".num"
+					data-from="100" data-to="570" data-duration="4" data-easing="true">
+					<div class="xe-icon">
+						<i class="fa-flash"></i>
+					</div>
+					<div class="xe-label">
+						<strong class="num">500</strong> <span>已关闭订单</span>
+					</div>
+				</div>
+
+			</div>
+
+			<!-- 下面是panel区域 -->
+
+			<div class="col-md-6">
+				<!-- Default panel -->
+				<div class="panel panel-default">
+					<div class="panel-heading">JVectorMap地图插件</div>
+					<div class="panel-body">
+						<p>JVectorMap是一个优秀的、兼容性强的jQuery地图插件。它可以工作在包括IE6在内的各款浏览器中，矢量图输出，除官方提供各国地图数据外，用户可以使用数据转换程序定制地图数据。</p>
+						<p>JVectorMap是一个优秀的、兼容性强的jQuery地图插件。它可以工作在包括IE6在内的各款浏览器中，矢量图输出，除官方提供各国地图数据外，用户可以使用数据转换程序定制地图数据。</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<!-- Default panel -->
+				<div class="panel panel-default">
+					<div class="panel-heading">JVectorMap地图插件</div>
+					<div class="panel-body">
+						<p>JVectorMap是一个优秀的、兼容性强的jQuery地图插件。它可以工作在包括IE6在内的各款浏览器中，矢量图输出，除官方提供各国地图数据外，用户可以使用数据转换程序定制地图数据。</p>
+						<p>JVectorMap是一个优秀的、兼容性强的jQuery地图插件。它可以工作在包括IE6在内的各款浏览器中，矢量图输出，除官方提供各国地图数据外，用户可以使用数据转换程序定制地图数据。</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<!-- Default panel -->
+				<div class="panel panel-default">
+					<div class="panel-heading">JVectorMap地图插件</div>
+					<div class="panel-body">
+						<p>JVectorMap是一个优秀的、兼容性强的jQuery地图插件。它可以工作在包括IE6在内的各款浏览器中，矢量图输出，除官方提供各国地图数据外，用户可以使用数据转换程序定制地图数据。</p>
+						<p>JVectorMap是一个优秀的、兼容性强的jQuery地图插件。它可以工作在包括IE6在内的各款浏览器中，矢量图输出，除官方提供各国地图数据外，用户可以使用数据转换程序定制地图数据。</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<!-- Default panel -->
+				<div class="panel panel-default">
+					<div class="panel-heading">JVectorMap地图插件</div>
+					<div class="panel-body">
+						<p>JVectorMap是一个优秀的、兼容性强的jQuery地图插件。它可以工作在包括IE6在内的各款浏览器中，矢量图输出，除官方提供各国地图数据外，用户可以使用数据转换程序定制地图数据。</p>
+						<p>JVectorMap是一个优秀的、兼容性强的jQuery地图插件。它可以工作在包括IE6在内的各款浏览器中，矢量图输出，除官方提供各国地图数据外，用户可以使用数据转换程序定制地图数据。</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

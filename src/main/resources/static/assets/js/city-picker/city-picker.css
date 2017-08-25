@@ -1,0 +1,23 @@
+input.citypicker {
+	cursor: pointer !important; 
+	background-color: #ffffff !important; 
+	padding-right:25px;
+}
+
+input.citypicker:hover {
+	background-color: #eeeeee !important; 
+}
+
+div.city-picker {
+	text-align: center; 
+	z-index: 1035; 
+	position: absolute; 
+	background-color: #ffffff;
+}
+
+.citypicker.caret {
+	position: static; 
+	float: right; 
+	margin-top: -18px; 
+	margin-right: 10px;
+}

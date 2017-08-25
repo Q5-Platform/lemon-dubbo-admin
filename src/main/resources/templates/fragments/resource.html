@@ -1,0 +1,214 @@
+<!-- css样式引入 -->
+<div th:fragment="stylesheet">
+   <link rel="shortcut icon" href="/assets/images/favicon.ico" th:href="@{/assets/images/favicon.ico}" type="image/x-icon" media="screen"></link>
+   <link rel="stylesheet" href="/assets/css/fonts/linecons/css/linecons.css" th:href="@{/assets/css/fonts/linecons/css/linecons.css}"></link>
+   <link rel="stylesheet" href="/assets/css/fonts/fontawesome/css/font-awesome.min.css" th:href="@{/assets/css/fonts/fontawesome/css/font-awesome.min.css}"></link>
+   <link rel="stylesheet" href="/assets/css/bootstrap.css" th:href="@{/assets/css/bootstrap.css}"></link>
+   <link rel="stylesheet" href="/assets/js/wysihtml5/lib/css/prettify.css" th:href="@{/assets/js/wysihtml5/lib/css/prettify.css}"></link>
+   <link rel="stylesheet" href="/assets/js/wysihtml5/src/bootstrap-wysihtml5.css" th:href="@{/assets/js/wysihtml5/src/bootstrap-wysihtml5.css}"></link>
+   <link rel="stylesheet" href="/assets/js/table/bootstrap-table.min.css" th:href="@{/assets/js/table/bootstrap-table.min.css}"></link>
+   <link rel="stylesheet" href="/assets/css/lemon-core.css" th:href="@{/assets/css/lemon-core.css}"></link>
+   <link rel="stylesheet" href="/assets/css/lemon-forms.css" th:href="@{/assets/css/lemon-forms.css}"></link>
+   <link rel="stylesheet" href="/assets/css/lemon-components.css" th:href="@{/assets/css/lemon-components.css}"></link>
+   <link rel="stylesheet" href="/assets/css/lemon-skins.css" th:href="@{/assets/css/lemon-skins.css}"></link>
+   <link rel="stylesheet" href="/assets/js/daterangepicker/daterangepicker-bs3.css" th:href="@{/assets/js/daterangepicker/daterangepicker-bs3.css}"></link>
+   <link rel="stylesheet" href="/assets/css/fonts/meteocons/css/meteocons.css" th:href="@{/assets/css/fonts/meteocons/css/meteocons.css}"></link>
+   <!-- <link rel="stylesheet" href="/assets/js/icheck/skins/all.css" th:href="@{/assets/js/icheck/skins/all.css}"></link> -->
+   <link rel="stylesheet" href="/assets/js/toastr/toastr.css" th:href="@{/assets/js/toastr/toastr.css}"></link>
+   <link rel="stylesheet" href="/assets/js/select/dist/css/bootstrap-select.min.css" th:href="@{/assets/js/select/dist/css/bootstrap-select.min.css}"></link>
+   <link rel="stylesheet" href="/assets/js/city-picker/city-picker.css" th:href="@{/assets/js/city-picker/city-picker.css}"></link>
+   
+   <!-- 自定义样式 -->
+   <link rel="stylesheet" href="/assets/css/custom.css" th:href="@{/assets/css/custom.css}"></link>
+   <link rel="stylesheet" href="/assets/js/dialog/bootstrap-dialog.min.css" th:href="@{/assets/js/dialog/bootstrap-dialog.min.css}"></link>   
+   
+   <script type="text/javascript" src="/assets/js/jquery-1.11.1.min.js" th:src="@{/assets/js/jquery-1.11.1.min.js}"></script>
+   <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+   <!--[if lt IE 9]>
+      <script src="/assets/js/html5shiv.min.js" th:src="@{/assets/js/html5shiv.min.js}"></script>
+      <script src="/assets/js/respond.min.js" th:src="@{/assets/js/respond.min.js}"></script>
+   <![endif]-->
+</div>
+<!-- js脚本引入 -->
+<div th:fragment="javascript">
+	<!-- Bottom Scripts -->
+	<script type="text/javascript" src="/assets/js/bootstrap.min.js" th:src="@{/assets/js/bootstrap.min.js}"></script>
+	<script type="text/javascript" src="/assets/js/jquery-validate/jquery.validate.min.js" th:src="@{/assets/js/jquery-validate/jquery.validate.min.js}"></script>
+	<script type="text/javascript" src="/assets/js/jquery-validate/localization/messages_zh.min.js" th:src="@{/assets/js/jquery-validate/localization/messages_zh.min.js}"></script>
+	
+	<script type="text/javascript" src="/assets/js/table/bootstrap-table.js" th:src="@{/assets/js/table/bootstrap-table.js}"></script>
+	<script type="text/javascript" src="/assets/js/table/locale/bootstrap-table-zh-CN.min.js" th:src="@{/assets/js/table/locale/bootstrap-table-zh-CN.min.js}"></script>	
+	<script type="text/javascript" src="/assets/js/table/extensions/mobile/bootstrap-table-mobile.min.js" th:src="@{/assets/js/table/extensions/mobile/bootstrap-table-mobile.min.js}"></script>
+	<script type="text/javascript" src="/assets/js/table/extensions/export/bootstrap-table-export.min.js" th:src="@{/assets/js/table/extensions/export/bootstrap-table-export.min.js}"></script>
+	<script type="text/javascript" src="/assets/js/table/extensions/export/tableExport.js" th:src="@{/assets/js/table/extensions/export/tableExport.js}"></script>
+	
+	<script type="text/javascript" src="/assets/js/dialog/bootstrap-dialog.js" th:src="@{/assets/js/dialog/bootstrap-dialog.js}"></script>
+	<script type="text/javascript" src="/assets/js/TweenMax.min.js" th:src="@{/assets/js/TweenMax.min.js}"></script>
+	<script type="text/javascript" src="/assets/js/resizeable.js" th:src="@{/assets/js/resizeable.js}"></script>
+	<script type="text/javascript" src="/assets/js/joinable.js" th:src="@{/assets/js/joinable.js}"></script>
+	<script type="text/javascript" src="/assets/js/lemon-api.js" th:src="@{/assets/js/lemon-api.js}"></script>
+	<script type="text/javascript" src="/assets/js/lemon-toggles.js" th:src="@{/assets/js/lemon-toggles.js}"></script>
+	<script type="text/javascript" src="/assets/js/lemon-widgets.js" th:src="@{/assets/js/lemon-widgets.js}"></script>
+
+	<script type="text/javascript" src="/assets/js/toastr/toastr.min.js" th:src="@{/assets/js/toastr/toastr.min.js}"></script>
+	<!-- 下拉框组件 -->
+	<!-- <script type="text/javascript" src="/assets/js/jquery-ui/jquery-ui.min.js" th:src="@{/assets/js/jquery-ui/jquery-ui.min.js}"></script> -->
+	<script type="text/javascript" src="/assets/js/select/dist/js/bootstrap-select.js" th:src="@{/assets/js/select/dist/js/bootstrap-select.js}"></script>
+	<script type="text/javascript" src="/assets/js/select/dist/js/i18n/defaults-zh_CN.min.js" th:src="@{/assets/js/select/dist/js/i18n/defaults-zh_CN.min.js}"></script>
+	
+	<!-- 时间选择组件 -->
+	<script type="text/javascript" src="/assets/js/moment.min.js" th:src="@{/assets/js/moment.min.js}"></script>
+	<script type="text/javascript" src="/assets/js/daterangepicker/daterangepicker.js" th:src="@{/assets/js/daterangepicker/daterangepicker.js}"></script>
+	<script type="text/javascript" src="/assets/js/datepicker/bootstrap-datepicker.js" th:src="@{/assets/js/datepicker/bootstrap-datepicker.js}"></script>
+	<script type="text/javascript" src="/assets/js/timepicker/bootstrap-timepicker.min.js" th:src="@{/assets/js/timepicker/bootstrap-timepicker.min.js}"></script>
+	<!-- 单选多选框组件 -->
+	<!-- <script type="text/javascript" src="/assets/js/icheck/icheck.min.js" th:src="@{/assets/js/icheck/icheck.min.js}"></script> -->
+	
+	<!-- 地图插件 -->
+	<!-- <script type="text/javascript" src="/assets/js/jvectormap/jquery-jvectormap-1.2.2.min.js" th:src="@{/assets/js/jvectormap/jquery-jvectormap-1.2.2.min.js}"></script> -->
+	<!-- <script type="text/javascript" src="/assets/js/jvectormap/regions/jquery-jvectormap-world-mill-en.js" th:src="@{/assets/js/jvectormap/regions/jquery-jvectormap-world-mill-en.js}"></script> -->
+	<!-- 编辑器组件 -->
+	<script type="text/javascript" src="/assets/js/wysihtml5/lib/js/prettify.js" th:src="@{/assets/js/wysihtml5/lib/js/prettify.js}"></script>
+	<script type="text/javascript" src="/assets/js/wysihtml5/lib/js/wysihtml5-0.3.0.js" th:src="@{/assets/js/wysihtml5/lib/js/wysihtml5-0.3.0.js}"></script>
+	<script type="text/javascript" src="/assets/js/wysihtml5/src/bootstrap-wysihtml5.js" th:src="@{/assets/js/wysihtml5/src/bootstrap-wysihtml5.js}"></script>
+	<script type="text/javascript" src="/assets/js/wysihtml5/src/locales/bootstrap-wysihtml5.zh-CN.js" th:src="@{/assets/js/wysihtml5/src/locales/bootstrap-wysihtml5.zh-CN.js}"></script>
+	<script type="text/javascript" src="/assets/js/toastr/toastr.js" th:src="@{/assets/js/toastr/toastr.js}"></script>
+	<!-- tags -->
+	<script type="text/javascript" src="/assets/js/tagsinput/bootstrap-tagsinput.min.js" th:src="@{/assets/js/tagsinput/bootstrap-tagsinput.min.js}"></script>
+	<script type="text/javascript" src="/assets/js/city-picker/city-picker.js" th:src="@{/assets/js/city-picker/city-picker.js}"></script>
+	
+	<!-- 自定义 -->
+	<script type="text/javascript" src="/assets/js/lemon-action.js" th:src="@{/assets/js/lemon-action.js}"></script>
+	<script type="text/javascript" src="/assets/js/lemon-custom.js" th:src="@{/assets/js/lemon-custom.js}"></script>
+</div>
+
+<!-- <div th:fragment="page-navigation" class="page-title">
+	<div class="title-env">
+		<h1 class="title" th:text="${title}? ${title}: '页面标题'">页面标题</h1>
+		<p class="description" th:text="${description}? ${description}: '页面说明信息'">页面说明信息</p>
+	</div>
+	<div class="btn-env">
+		<button class="btn btn-info btn-icon">
+			<i class="fa-search"></i>
+			<span>查询</span>
+		</button>
+		<button class="btn btn-info btn-icon">
+			<i class="fa-plus"></i>
+			<span>添加</span>
+		</button>
+		<button class="btn btn-info btn-icon">
+			<i class="fa-edit"></i>
+			<span>修改</span>
+		</button>
+		<button class="btn btn-info btn-icon">
+			<i class="fa-trash-o"></i>
+			<span>删除</span>
+		</button>
+		<button class="btn btn-info btn-icon">
+			<i class="fa-file-text-o"></i>
+			<span>详情</span>
+		</button>		
+		<button class="btn btn-info btn-icon">
+			<i class="fa-legal"></i>
+			<span>审核</span>
+		</button>
+		<button class="btn btn-info btn-icon">
+			<i class="fa-check-square-o"></i>
+			<span>确认</span>
+		</button>
+		<button class="btn btn-info btn-icon">
+			<i class="fa-reply-all"></i>
+			<span>撤回</span>
+		</button>
+		<button class="btn btn-info btn-icon">
+			<i class="fa-save"></i>
+			<span>保存</span>
+		</button>
+		<button class="btn btn-info btn-icon">
+			<i class="fa-times"></i>
+			<span>取消</span>
+		</button>
+	</div>
+</div> -->
+
+<div th:fragment="page-navigation (title)" class="page-title">
+	<div class="title-env">
+		<h3 class="title" th:text="${title}? ${title}: '页面标题'">页面标题</h3>
+		<!-- <p class="description" th:text="${description}? ${description}: '页面说明信息'">页面说明信息</p> -->
+	</div>
+	<div class="btn-env">
+		<!-- 导航菜单 User Info, Notifications and Menu Bar -->
+		<div class="navbar user-info-navbar" >
+			<!-- 导航右边显示的功能图标 -->
+			<ul class="user-info-menu right-links list-inline list-unstyled">
+				<!-- 加入always-visible会一直显示搜索输入框 -->
+				<li class="search-form always-visible">
+					<form method="get" action="extra-search.html">
+						<input type="text" name="iptSearch"
+							class="form-control search-field" placeholder="请输入搜索内容" />
+						<button type="submit" class="btn btn-link">
+							<i class="linecons-search"></i>
+						</button>
+					</form>
+				</li>
+				<!-- 我的信息下拉 -->
+				<li class="dropdown user-profile" th:include="fragments/resource::userinfo"></li>
+			</ul>
+		</div>
+	</div>	
+</div>
+<!-- 登录的用户信息显示 -->
+<div th:fragment="userinfo">
+	<a href="#" data-toggle="dropdown">
+		<img id="userImage" src="/assets/images/user-4.png" onerror="this.src='/assets/images/user-4.png'" 
+		  alt="user-image" class="img-circle img-inline userpic-32" width="28" />
+		<span id="suserName">龙佚 </span>
+		<i class="fa-angle-down"></i>
+	</a>
+	<ul class="dropdown-menu user-profile-menu list-unstyled">
+		<li><a href="javascript:void(0);" onclick="actionItem('/manager/profile', '我的信息')">
+			<i class="fa-user"></i> 我的信息
+			</a>
+		</li>
+		<li><a href="javascript:void(0);" onclick="actionItem('/manager/newPassword', '修改密码')">
+			<i class="fa-wrench"></i> 修改密码
+			</a>
+		</li>
+		<!-- <li><a href="#help">
+			<i class="fa-info"></i> 帮助说明
+			</a>
+		</li> -->
+		<li class="last">
+			<a href="javascript:void(0);" onclick="location.replace('/manager/logout')">
+			<i class="fa-lock"></i> 退出系统
+			</a>
+		</li>
+	</ul>
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	$(document).ready(function(){
+		var userinfo = JSON.parse(localStorage.getItem("userinfo"));
+		if (userinfo) {
+			$("#suserName").text(userinfo.nickName);
+			$("#userImage").attr("src", userinfo.imageUrl? userinfo.imageUrl: "/assets/images/user-4.png");
+		}
+	});
+	/*]]>*/
+	</script>
+</div>
+	
+<!-- 底部footer引入 -->
+<div th:fragment="footer">
+	<div class="footer-inner">
+		<!-- Add your copyright text here -->
+		<div class="footer-text">
+			&copy; 2016 <strong>Lemon</strong> - 
+			<!-- <a href="http://www.Lemon.net/" target="_blank" title="lonyee@live.com">柠檬后台管理系统</a> -->
+			柠檬后台管理系统
+		</div>
+		<!-- Go to Top Link, just add rel="go-top" to any link to add this functionality -->
+		<div class="go-up">
+			<a href="javascript:void(0);" rel="go-top"> <i class="fa-angle-up"></i>&nbsp;返回顶部</a>
+		</div>
+	</div>
+</div>

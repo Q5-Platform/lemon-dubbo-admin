@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+   <meta charset="utf-8"/>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <meta name="description" content="后台管理系统" />
+   <meta name="author" content="lonyee" />
+   <title th:text="#{head.title}">LEMON后台管理系统</title>
+   <div th:include="fragments/resource::stylesheet"></div>
+</head>
+
+<body class="page-body skin-navy">
+	<div class="page-container">
+		<!--  collapsed -->
+		<div class="sidebar-menu toggle-others fixed" th:if="${#bools.isFalse(showMenus)}">
+			<div class="sidebar-menu-inner">
+				<header class="logo-env">
+					<!-- logo -->
+					<div class="logo">
+						<a href="/index" th:href="@{/index}" class="logo-expanded">
+							<img src="assets/images/logo@2x.png" th:src="@{/assets/images/logo@2x.png}" width="80" alt="LEMON" />
+						</a>
+						<a href="javascript:void(0);" class="logo-collapsed" data-toggle="sidebar">
+							<img src="assets/images/logo-collapsed@2x.png" th:src="@{/assets/images/logo-collapsed@2x.png}" width="40" alt="LEMON" />
+						</a>
+					</div>
+
+					<!-- This will toggle the mobile menu and will be visible only on mobile devices -->
+					<div class="mobile-menu-toggle visible-xs">
+						<!-- <a href="javascript:void(0);" data-toggle="user-info-menu">
+							<i class="fa-bell-o"></i>
+							<span class="badge badge-success">7</span>
+						</a> -->
+
+						<a href="javascript:void(0);" data-toggle="mobile-menu"><i
+							class="fa-bars"></i>
+						</a>
+					</div>
+					<div class="settings-icon hidden-sm hidden-xs">
+						<a href="#" data-toggle="sidebar"> <i class="fa-bars"></i>
+						</a>
+					</div>
+				</header>
+				
+				<div id="main-menu">
+				</div>
+				<script th:inline="javascript">
+				/*<![CDATA[*/
+				$(function(){
+					var menus = localStorage.getItem("menus");
+					if (menus) {
+						var menusHtml = getMenuTree(JSON.parse(menus), 0);
+						$("#main-menu").html(menusHtml);
+					} else {
+						$.ajax({
+							type : "get",
+							url : "/menu/getMenuTree",
+							async : false,
+							success : function(result){
+								var menusHtml = getMenuTree(result.data, 0);
+								$("#main-menu").html(menusHtml);
+								localStorage.setItem("menus", JSON.stringify(result.data));
+							}
+						});
+					}
+				});
+				
+				var getMenuTree = function(menus, pid) {
+					var treeHtml = '<ul'+ (pid==0? ' class="main-menu"':'') +'>';
+					for(var i=0; i<menus.length; i++) {
+						var item = menus[i];
+						if (item.parentId==pid) {
+							treeHtml +='<li>'; //'+ (pid==0 && i==0? ' class="opened active"': '') +'
+							treeHtml +='<a href="'+ (item.isLeaf? item.url: 'javascript:void(0)') +'">';
+							treeHtml +='<i class="'+ item.icon +'"></i> <span class="title">'+ item.name +'</span></a>';
+							if (!item.isLeaf) {
+								treeHtml += getMenuTree(menus, item.id);
+							}
+							treeHtml +='</li>';
+						}
+					}
+					treeHtml += '</ul>';
+					return treeHtml;
+				}
+				/*]]>*/
+				</script>
+			</div>
+		</div>
+		<div class="main-content">
+			<!-- 右侧引导菜单 -->
+			<div class="navigation" layout:fragment="navigation">
+				<!-- 导航内容 -->
+			</div>
+			
+			<div th:include="fragments/resource::javascript"></div>
+			<!-- 具体页面内容 -->
+			<!-- <div th:replace="fragments/alert::alert(type='danger', message='操作失败')">错误: 显示失败</div> -->
+			<div class="content" layout:fragment="content">
+			  <!-- 页面包含的内容 -->
+			</div>
+			<!-- Main Footer -->
+			<!-- <footer th:include="fragments/resource::footer" class="main-footer sticky footer-type-1"></footer> -->
+		</div>
+	</div>
+</body>
+</html>

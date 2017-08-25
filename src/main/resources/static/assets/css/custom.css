@@ -1,0 +1,232 @@
+/**
+ *
+ * Apply your custom CSS here
+ *
+*/
+
+body {	
+}
+
+a {
+}
+
+/* 页面操作按钮 */
+.btn-env {
+	padding-left: 30px;
+	float: right;
+	display: block;
+	padding-right: 30px;
+}
+.btn-env>.btn {
+	margin-left: 5px;
+	margin-top: 5px;
+	min-width: 40px;
+	height: 38px;
+}
+
+.btn-env>.btn span {
+	display: none !important;
+    visibility: hidden !important;
+}
+
+.btn-env>.btn:hover span {
+	display: inherit !important;
+    visibility: visible !important;
+}
+.dropup>.btn {
+	border-color: #cccccc;
+	height: 25px;
+    top: 3px;
+    padding-top: 3px;
+}
+.page-title .user-info-navbar {
+	background-color: #f8f8f8;
+	border: 0;
+	margin-top: -8px;
+    margin-bottom: -10px;
+}
+.page-title .user-info-navbar .user-info-menu > li > a,
+.page-title .user-info-navbar .user-info-menu > li,
+.page-title .user-info-navbar .user-info-menu > .search-form,
+.page-title .user-info-navbar .user-info-menu .search-form > form {
+	background-color: #f8f8f8;
+	border: 1px solid #f8f8f8;
+}
+.page-title .user-info-navbar .user-info-menu > li > a {
+	padding-top: 20px;
+	padding-bottom: 20px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+.page-title .user-info-navbar .user-info-menu .search-form > form {
+	padding-top: 20px;
+	padding-bottom: 15px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+.page-title .user-info-navbar .user-info-menu > li.search-form .search-field {
+	background-color: #fff;
+}
+.page-title .user-info-navbar .user-info-menu > li.open {
+	border-left-color: #dddddd;
+    border-right-color: #dddddd;
+}
+
+.btn-default {
+    color: #666666;
+}
+.btn-tool>.btn-default {
+	min-width: 60px;
+}
+.fixed-table-toolbar .btn-group>.btn:first-child:not(:last-child):not(.dropdown-toggle) {
+	border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+.fixed-table-toolbar .btn-group>.btn:last-child:not(:first-child):not(.dropdown-toggle) {
+	border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+.fixed-table-toolbar .panel-search {
+	padding-top: 0px;
+	padding-bottom: 0px;
+	margin-top: -12px;
+}
+
+.modal>.modal-dialog>.modal-content{
+	border-radius: 5px;
+}
+.modal>.modal-dialog>.modal-content>.modal-body{
+	color: rgb(44, 46, 47);
+}
+.modal>.modal-dialog>.modal-content .bootstrap-dialog-footer-buttons>.btn {
+	margin-bottom: 0;
+	min-width: 80px;
+	margin-left: 10px;
+}
+.bootstrap-dialog .bootstrap-dialog-message {
+    font-size: 13px;
+}
+
+/* 查询面板样式 */
+.panel-search {
+	margin-bottom: 0px;
+	padding-left: 3px;
+	padding-right: 3px;
+	padding-top: 10px;
+	padding-bottom: 15px;
+}
+.panel-search > div{
+	margin-left: 8px;
+	margin-right: 8px;
+}
+.panel-search >.form-group {
+	margin-top: 8px;
+}
+.panel-search>div>.control-label {
+	margin-right: 5px;
+}
+.panel-search>div>.btn {
+	padding: 5px 20px;
+    /* font-size: 12px; */
+    border-radius: 0px;
+}
+.form-group .btn-edit {
+	margin-left: 15px;
+	margin-right: 15px;
+}
+.form-group .btn-edit>.btn{
+	margin-left: 15px;
+	margin-right: 15px;
+}
+/* 垂直居中 */
+.center-vertical {
+    position:relative;
+    top:50%;
+    transform:translateY(-50%);
+}
+table input[type="checkbox"][disabled] {
+	cursor:default;
+}
+form .form-group .form-control.error {
+    border-color: #cc3f44;
+    color: #E66267;
+}
+form .form-group .form-control.error::-moz-placeholder {
+  color: #E66267;
+  opacity: 1;
+}
+form .form-group .form-control.error:-ms-input-placeholder {
+  color: #E66267;
+}
+form .form-group .form-control.error::-webkit-input-placeholder {
+  color: #E66267;
+}
+form .form-group .form-control.error::-webkit-input-placeholder {
+  color: #E66267;
+}
+form .form-group .form-control.error:-moz-placeholder {
+  color: #E66267;
+}
+form .form-group .form-control.error::-moz-placeholder {
+  color: #E66267;
+}
+form .form-group .form-control.error:-ms-input-placeholder {
+  color: #E66267;
+}
+form .form-group .form-control.error + span {
+    display: block !important;
+    margin-top: 0px;
+    font-size: 12px;
+    line-height: 1.3;
+    color: #cc3f44;
+    margin-bottom: -15px;
+    float: left;
+}
+.bootstrap-table td>span>.action {
+	padding: 3px 8px;
+	margin-top:-5px;
+	margin-bottom:-5px;
+	vertical-align: middle;
+	cursor: pointer;
+}
+.card-views span>.action {
+	padding-top: 3px;
+	padding-bottom: 3px;
+	padding-left: 0px;
+	padding-right: 8px;
+	margin-top:-5px;
+	margin-bottom:-5px;
+	vertical-align: middle;
+	cursor: pointer;
+}
+
+/* 模拟菜单显示 */
+.bootstrap-select.btn-group .dropdown-menu li.disabled a {
+	cursor: pointer;
+}
+/* 文字状态颜色 */
+.color-default {
+	color: #2c2e2f;
+}
+.color-warn {
+	color: #f5c150;
+}
+.color-error {
+	color: #d5080f;
+}
+.color-success {
+	color: #32932e;
+}
+.color-unkown {
+	color: #666666;
+}
+
+/* table 选中悬停显示背景色
+ .table-hover > tbody > tr:hover > td, .table-hover > tbody > tr:hover > th {
+	 background-color: #FBF5E5;
+}
+
+.fixed-table-container tbody .selected td {
+    background-color: #F9EAC1;
+} 
+*/

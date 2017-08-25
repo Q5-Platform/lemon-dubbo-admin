@@ -1,0 +1,24 @@
+<div th:fragment="alert (type, message)" class="alert alert-dismissable" th:classappend="'alert-' + ${type}">
+	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	<span th:text="${message}">消息</span>
+</div>
+
+
+<!--
+<div th:fragment="dialog (id, title, message)" class="modal fade custom-width" th:id="${id}">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" th:text="${title}">提示</h4>
+			</div>
+
+			<div class="modal-body" th:text="${message}">消息内容</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+				<button type="button" class="btn btn-info">确定</button>
+			</div>
+		</div>
+	</div>
+</div> -->

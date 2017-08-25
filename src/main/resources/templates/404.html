@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+   <meta charset="utf-8"/>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <meta name="description" content="后台管理系统" />
+   <meta name="author" content="lonyee" />
+   <title>LEMON后台管理系统 - 找不到访问的页面</title>
+   <div th:include="fragments/resource::stylesheet"></div>
+</head>
+<body class="page-body page-error-env page-light">
+	<div class="page-error centered">
+		<div class="error-symbol">
+			<i class="fa-warning"></i>
+		</div>
+		<h2>
+			Error 404
+			<small>抱歉，找不到访问的页面</small>
+		</h2>
+		
+		<p>您正在查找的资源(或者它的一个依赖项)可能已被移除，或其名称已更改，或暂时不可用。</p><p>请检查您访问的 URL 并确保其拼写正确。</p>
+		
+		<div style="margin-top: 30px;">
+		<a href="/index" th:href="@{/index}">
+			<i class="fa-angle-left"></i>
+			返回首页
+		</a>
+		<a href="javascript:history.go(-1);" class="go-back" style="margin-left: 20px;">
+			<i class="fa-angle-left"></i>
+			返回上一页
+		</a>
+		</div>
+	</div>
+	
+	<!-- <div class="page-error-search centered">
+		<form class="form-half" method="get" action="" enctype="application/x-www-form-urlencoded">
+			<input type="text" class="form-control input-lg" placeholder="Search..." />
+			
+			<button type="submit" class="btn-unstyled">
+				<i class="linecons-search"></i>
+			</button>
+		</form>
+		
+		<a href="#" class="go-back">
+			<i class="fa-angle-left"></i>
+			Go Back
+		</a>
+	</div> 
+   <div th:include="fragments/resource::javascript"></div>-->
+
+</body>
+</html>

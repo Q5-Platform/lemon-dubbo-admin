@@ -1,0 +1,16 @@
+# 设定配置环境
+spring:
+  profiles:
+    active: local
+
+server:
+  port: 8011
+  address: 0.0.0.0
+  sessionTimeout: 30
+
+tomcat:
+  accessLogEnabled: false
+  protocolHeader: x-forwarded-proto
+  remoteIpHeader: x-forwarded-for
+  basedir:
+    backgroundProcessorDelay: 30 # secs

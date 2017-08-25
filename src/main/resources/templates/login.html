@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+   <meta charset="utf-8"/>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <meta name="description" content="后台管理系统" />
+   <meta name="author" content="lonyee" />
+   <title>LEMON后台管理系统 - 登录</title>
+   <div th:include="fragments/resource::stylesheet"></div>
+</head>
+<body class="page-body login-page login-light">
+	<div class="login-container">
+	
+		<div class="row">
+		
+			<div class="col-sm-6" style="margin: auto; float: none;">
+				<!-- Errors container -->
+				<div class="errors-container">
+				</div>
+				<!-- Add class "fade-in-effect" for login form effect -->
+				<form method="post" role="form" id="loginform" class="login-form fade-in-effect" autocomplete="off">
+					<div class="login-header">
+						<a href="javascript:void(0);" class="logo">
+							<img src="/assets/images/logo-black-bg@2x.png" alt="" width="80" />
+							<span>登录</span>
+						</a>
+						<p>欢迎使用Lemon后台管理系统</p>
+					</div>
+					<div class="form-group">
+						<input type="text" class="form-control" required="required" name="mobile" id="mobile" autocomplete="off" placeholder="手机号" />
+					</div>
+					<div class="form-group">
+						<input type="password" class="form-control required" name="password" id="password" autocomplete="off" placeholder="密码"/>
+					</div>
+					<div class="form-group facebook">
+						<button id="login" type="submit" class="btn btn-info btn-block text-left">
+							<i class="fa-space-shuttle"></i>
+							进入系统
+						</button>
+					</div>
+					<div class="login-footer">
+						<a href="javascript:void(0);" onclick="BootstrapDialog.alert('忘记密码请联系客服: 400-7775786');">忘记密码?</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+   	<div th:include="fragments/resource::javascript"></div>
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+		$(document).ready(function(){
+			// Reveal Login form
+			setTimeout(function() { $(".fade-in-effect").addClass('in'); }, 1);
+			
+			$("#loginform").validate({
+				submitHandler:function(form){
+		            $.post("/user/login", $(form).serialize(), function(result){
+		            	if (result.meta.code==2000) {
+		            		$.ajax({  
+		          				beforeSend :function(xhr){  
+		          					xhr.setRequestHeader('x-auth-token', result.data.token); //设置消息头
+		          				}
+		          			});
+		            		localStorage.setItem("userinfo", JSON.stringify(result.data));
+		            		var redirect_url = $.getUrlParam("redirect_url");
+		            		if (redirect_url) {
+		            			location.replace(decodeURIComponent(redirect_url));
+		            		} else { 
+			    				location.replace("/index");
+		            		}
+		    			} else {
+		    				toastr.error(result.meta.message);
+		    			}
+		            });
+		        }
+			});
+			$("form#loginform .form-group:has(.form-control):first .form-control").focus();
+			localStorage.clear();
+		});
+	/*]]>*/
+	</script>
+</body>
+</html>

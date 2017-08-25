@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="fragments/layout">
+<head>
+   <title>LEMON后台管理系统 - 列表示例</title>
+</head>
+
+<body class="page-body skin-navy">
+	<!-- 右侧引导菜单 -->
+	<div class="page-title" layout:fragment="navigation" th:include="fragments/resource::page-navigation(demo)">
+		
+	</div>
+	
+	<!-- 具体页面内容 -->
+	<div class="content" layout:fragment="content">
+	  <div class="panel form-inline panel-search">
+	  	<div class="form-group">
+	  		<label class="control-label" for="userId">用户名</label>
+			<input type="text" class="form-control" id="userId" placeholder="用户名"/>
+		</div>
+		<div class="form-group">
+	  		<label class="control-label" for="telphone">手机号</label>
+			<input type="text" class="form-control" id="telphone" placeholder="手机号"/>
+		</div>
+		<div class="form-group">
+	  		<label class="control-label" for="name">姓名</label>
+			<input type="text" class="form-control" id="name" placeholder="姓名"/>
+		</div>
+		<div class="form-group">
+			<button class="btn btn-info btn-single btn-icon">
+				<i class="fa-search"></i>
+				<span>查询</span>
+			</button>
+		</div>
+	  </div>
+	  <div id="btnlist" class="btn-group btn-group-sm btn-tool">
+		<button class="btn btn-default btn-icon">
+			<i class="fa-plus"></i>
+			<span>添加</span>
+		</button>
+		<button class="btn btn-default btn-icon">
+			<i class="fa-edit"></i>
+			<span>修改</span>
+		</button>
+		<button class="btn btn-default btn-icon">
+			<i class="fa-trash-o"></i>
+			<span>删除</span>
+		</button>
+		<button class="btn btn-default btn-icon">
+			<i class="fa-file-text-o"></i>
+			<span>详情</span>
+		</button>		
+		<button class="btn btn-default btn-icon">
+			<i class="fa-legal"></i>
+			<span>审核</span>
+		</button>
+		<button class="btn btn-default btn-icon">
+			<i class="fa-check-square-o"></i>
+			<span>确认</span>
+		</button>
+		<button class="btn btn-default btn-icon">
+			<i class="fa-reply-all"></i>
+			<span>撤回</span>
+		</button>
+		<button class="btn btn-default btn-icon">
+			<i class="fa-save"></i>
+			<span>保存</span>
+		</button>
+		<button class="btn btn-default btn-icon">
+			<i class="fa-times"></i>
+			<span>取消</span>
+		</button>
+	</div>
+	<!-- 数据列表展示 hidden-->
+	<table id="table" data-toggle="table" data-toolbar="#btnlist" data-id-field="id" data-ajax="ajaxRequest" data-mobile-responsive="true" data-show-export="true">
+		  <thead>
+			<tr>
+				<th data-checkbox="true" class="hidden"></th>  <!-- class="hidden" -->
+				<th data-field="id">id</th>
+				<th data-field="name">name</th>
+				<th data-field="price">price</th>
+			</tr>
+		  </thead>
+		</table>
+	<script>
+    //var $table = $('#table');
+    //模拟客户端请求返回数据
+    //http://nakupanda.github.io/bootstrap3-dialog/
+    function ajaxRequest(params) {
+        //BootstrapDialog.alert(JSON.stringify(params.data));
+        //BootstrapDialog.show({title: "分页参数", message: JSON.stringify(params.data)});
+        console.log(params.data);
+        // 延迟看效果setTimeout
+        //setTimeout(function () {
+            params.success({
+                total: 20,
+                rows: [{
+                    "id": 0,
+                    "name": "Item 0",
+                    "price": "$0"
+                },{
+                    "id": 1,
+                    "name": "Item 1",
+                    "price": "$30"
+                },{
+                    "id": 2,
+                    "name": "Item 2",
+                    "price": "$10"
+                },{
+                    "id": 3,
+                    "name": "Item 3",
+                    "price": "$20"
+                },{
+                    "id": 4,
+                    "name": "Item 4",
+                    "price": "$20"
+                }]
+            });
+        //},500);
+    }
+	</script>
+
+
+		<!-- 信息提醒 hidden -->
+		<div class='panel panel-default '>
+			<div th:replace="/fragments/alert::alert(type='default', message='默认提醒消息')"></div>
+			<div th:replace="/fragments/alert::alert(type='white', message='白底提醒消息')"></div>
+			<div th:replace="/fragments/alert::alert(type='info', message='信息提醒消息')"></div>
+			<div th:replace="/fragments/alert::alert(type='warning', message='警告提醒消息')"></div>
+			<div th:replace="/fragments/alert::alert(type='danger', message='错误提醒消息')"></div>
+		</div>	
+	<!-- 表单页面 -->
+	<div class="panel">
+	<form role="form" class="form-horizontal">
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="userName">用户名</label>
+			<div class="col-sm-4">
+				<input type="text" class="form-control" id="userName" placeholder="请输入用户名"/>
+			</div>
+			<label class="col-sm-2 control-label" for="sex">性别</label>
+			<div class="col-sm-4">
+				<script type="text/javascript">
+					/* 引入jquery-ui.js  jquery.selectBoxIt.js */
+					jQuery(document).ready(function($){
+						/* $("#sex").selectBoxIt({
+							showFirstOption: false
+						}).on('open', function(){
+							// Adding Custom Scrollbar
+							$(this).data('selectBoxSelectBoxIt').list.perfectScrollbar();
+						}); */
+						
+						$("#sex").selectBoxIt({
+							showFirstOption: false,
+							showEffect: 'fadeIn',
+							hideEffect: 'fadeOut'
+						});
+					});
+					
+				</script>
+				<select class="form-control" id="sex">
+					<option value="unkown">请选择性别</option>
+					<option value="male">男</option>
+					<option value="female">女</option>
+					<option value="unknown">未知</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group-separator"></div>
+		<!-- 时间选择组件 -->
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="date-range">开始-结束时间</label>
+			<div class="col-sm-4">
+				<input class="form-control daterange" id="date-range"  data-format="YYYY-MM-DD" data-start-date="2016-08-02" data-end-date="2016-08-15" placeholder="选择时间区间" autocomplete="off"/>
+			</div>
+			<label class="col-sm-2 control-label" for="date">选择时间</label>
+			<div class="col-sm-4">
+				<div class="date-and-time">
+					<input class="form-control datepicker" data-format="yyyy-MM-dd D" id="date" placeholder="选择使用时间" autocomplete="off"/>
+					<!-- data-show-meridian="true" 为12小时AM/PM选择，  data-second-step="5" data-show-seconds="true"设置秒 -->
+					<input class="form-control timepicker" data-template="dropdown"  data-default-time="11:25" data-show-meridian="false" data-minute-step="5" />
+				</div>
+				<!-- 周一和周三不可用 -->
+				<!-- <input type="text" class="form-control datepicker" data-disabled-days="1,3" id="date" placeholder="选择使用时间" autocomplete="off"/> -->
+			</div>
+		</div>
+		<div class="form-group-separator"></div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">多选框</label>
+			<div class="col-sm-4">
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" name="chkgroup"></input>
+						选项1
+					</label>
+				</div>
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" name="chkgroup" checked="checked"></input>
+						选项2
+					</label>
+				</div>
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" name="chkgroup" disabled="disabled"></input>
+						选项3
+					</label>
+				</div>
+			</div>
+			<label class="col-sm-2 control-label">单选框</label>
+			<div class="col-sm-4">
+				<div class="radio">
+					<label>
+						<input type="radio" name="radiogroup"></input>
+						单选项1
+					</label>
+				</div>
+				<div class="radio">
+					<label>
+						<input type="radio" name="radiogroup"></input>
+						单选项2
+					</label>
+				</div>
+				<div class="radio">
+					<label>
+						<input type="radio" name="radiogroup" disabled="disabled" checked="checked"></input>
+						单选项3
+					</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group-separator"></div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">行排列选择框</label>
+			<div class="col-sm-10">
+				<label class="checkbox-inline">
+					<input type="checkbox"></input>
+					选择项1
+				</label>
+				<label class="checkbox-inline">
+					<input type="checkbox" checked="checked"></input>
+					选择项2
+				</label>
+				<label class="checkbox-inline">
+					<input type="checkbox"></input>
+					选择项3
+				</label>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="text1" >备注说明</label>
+			<div class="col-sm-10 no-margin">
+				<textarea class="form-control autogrow" id="text1" placeholder="请输入简要说明"></textarea>
+			</div>
+		</div>
+		<div class="form-group-separator"></div>
+		<div class="form-group">
+			<!-- <label class="control-label" for="sample_wysiwyg" >WYSIHMTL5编辑器</label> -->
+			<textarea class="form-control wysihtml5" data-stylesheet-url="/assets/js/wysihtml5/lib/css/wysiwyg-color.css" name="sample_wysiwyg" id="sample_wysiwyg" placeholder="WYSIHMTL5编辑器"></textarea>
+		</div>
+	</form>
+	</div>
+	</div>
+</body>
+</html>

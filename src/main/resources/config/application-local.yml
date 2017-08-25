@@ -1,0 +1,48 @@
+spring:
+  aop:
+    proxy-target-class: true
+  swagger:
+    enable: true
+  thymeleaf:
+    cache: false
+  cross:
+    mapping: "*"  # 设置跨域访问域名
+  interceptor:
+    excludes: /login, /user/*/code, /user/login, /user/register, /user/logout, /error, /swagger**, /v2/api-docs, /configuration/security, /configuration/ui, /favicon.ico
+
+dubbo:
+  application:  # 提供方应用信息，用于计算依赖关系
+    name: lemon-admin
+    owner: lonyee
+    version: 1.0.0
+    organization: lemon
+  provider:
+    timeout: 10000
+    retries: 0
+    delay: -1
+  consumer:
+    check: false
+  registry:
+    protocol: zookeeper
+    address: zookeeper:32780
+    check: false
+    register: true
+    subscribe: true
+  annotation:
+    package: cn.lemon.dubbo.admin.controller, cn.lemon.dubbo.admin.intercept  # 扫描注解包路径，多个包用逗号分隔，不填pacakge表示扫描当前ApplicationContext中所有的类
+  protocol:
+    name: dubbo
+    port: -1
+    threads: 100
+    accessLog: true
+
+# 日志设定
+logging:
+  level:
+    cn.lemon: DEBUG
+  config: classpath:config/logback.xml
+  path: /usr/logs/admin
+  # path: ${catalina.base}/logs/admin
+  
+
+...
