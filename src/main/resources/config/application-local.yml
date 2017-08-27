@@ -29,7 +29,7 @@ dubbo:
     register: true
     subscribe: true
   annotation:
-    package: cn.lemon.dubbo.admin.controller, cn.lemon.dubbo.admin.intercept  # 扫描注解包路径，多个包用逗号分隔，不填pacakge表示扫描当前ApplicationContext中所有的类
+    package: cn.lemon.dubbo.admin.controller, cn.lemon.dubbo.admin.authc  # 扫描注解包路径，多个包用逗号分隔，不填pacakge表示扫描当前ApplicationContext中所有的类
   protocol:
     name: dubbo
     port: -1

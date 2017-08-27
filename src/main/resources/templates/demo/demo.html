@@ -73,7 +73,7 @@
 		</button>
 	</div>
 	<!-- 数据列表展示 hidden-->
-	<table id="table" data-toggle="table" data-toolbar="#btnlist" data-id-field="id" data-ajax="ajaxRequest" data-mobile-responsive="true" data-show-export="true">
+	<table id="table" data-toggle="table" data-toolbar="#btnlist" data-id-field="id" data-show-export="true" data-ajax="ajaxRequest" data-side-pagination="server"  data-pagination="true">
 		  <thead>
 			<tr>
 				<th data-checkbox="true" class="hidden"></th>  <!-- class="hidden" -->
@@ -90,9 +90,9 @@
     function ajaxRequest(params) {
         //BootstrapDialog.alert(JSON.stringify(params.data));
         //BootstrapDialog.show({title: "分页参数", message: JSON.stringify(params.data)});
-        console.log(params.data);
+        //console.log(params.data);
         // 延迟看效果setTimeout
-        //setTimeout(function () {
+        setTimeout(function () {
             params.success({
                 total: 20,
                 rows: [{
@@ -117,7 +117,7 @@
                     "price": "$20"
                 }]
             });
-        //},500);
+        },500);
     }
 	</script>
 

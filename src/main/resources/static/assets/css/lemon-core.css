@@ -5589,9 +5589,9 @@ blockquote small {
 .form-horizontal .control-label {
   text-align: right;
 }
-.form-horizontal > .form-group:last-child {
+/* .form-horizontal > .form-group:last-child {
   margin-bottom: 0;
-}
+} */
 input.form-control.form-focus-primary:focus {
   border-color: rgba(44, 46, 47, 0.6);
   outline: 0;
@@ -6840,10 +6840,19 @@ pre {
 	.form-group {
 		margin-bottom: 15px !important;
 	}
+	.table > tbody > tr > td {
+		line-height: 2.5
+	}
 }
 
 @media screen and (min-width: 768px) {
 	.modal-sm {
     	width: 400px;
     }
+	.form-inline .form-group .bootstrap-select.btn-group {
+	    display: inline-block;
+	    width: 120px;
+	    vertical-align: middle;
+	}
 }
+

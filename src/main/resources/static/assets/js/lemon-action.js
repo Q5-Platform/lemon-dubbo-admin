@@ -127,16 +127,20 @@ function appendItem(url, title, size, buttons){
  * @param table 操作的数据表
  * @param url 链接
  * @param title 标题
+ * @param index 索引行
  * @param size 窗体大小 size-normal(default), size-small, size-wide, size-large
  * @param buttons 操作按钮
  */
-function modifyItem(table, url, title, size, buttons){
+function modifyItem(table, url, title, index, size, buttons){
 	var id = getRowId(table);
 	if (!id) {
 		return;
 	}
 	if (!buttons) {
 		buttons = [actionButtons.cancel, actionButtons.save];
+	}
+	if (index) {
+		$('#'+table).bootstrapTable("check", index);
 	}
 	BootstrapDialog.show({
 		size: size || 'size-normal',
@@ -158,12 +162,16 @@ function modifyItem(table, url, title, size, buttons){
  * @param table 操作的数据表
  * @param url 链接
  * @param title 标题
+ * @param index 索引行
  * @param size 窗体大小 size-normal(default), size-small, size-wide, size-large
  */
-function viewItem(table, url, title, size){
+function viewItem(table, url, title, index, size){
 	var id = getRowId(table);
 	if (!id) {
 		return;
+	}
+	if (index) {
+		$('#'+table).bootstrapTable("check", index);
 	}
 	BootstrapDialog.show({
 		size: size || 'size-normal',
@@ -173,7 +181,7 @@ function viewItem(table, url, title, size){
         closeByKeyboard: false,
 		title: title || '查看详情',
 	    message: function(dialog) {
-	      var $message = $('<div></div>').load(url + id);  
+	      var $message = $('<div></div>').load(url + id);
 	      return $message;
 	    }
 	});
@@ -184,18 +192,22 @@ function viewItem(table, url, title, size){
  * @param table 操作的数据表
  * @param url 删除链接
  * @param content 提示内容
+ * @param index 索引行
  * @param size 窗体大小 size-normal, size-small(default), size-wide, size-large
  */
-function deleteItem(table, url, content, size){
+function deleteItem(table, url, content, index, size){
 	var id = getRowId(table);
 	if (!id) {
 		return;
+	}
+	if (index) {
+		$('#'+table).bootstrapTable("check", index);
 	}
 	BootstrapDialog.confirm({
 		size: size || 'size-small',
 		cssClass: size,
         title: '删除',
-        message: content || '是否删除选择项',
+        message: content+'【ID='+id+'】' || '是否删除选择项【ID='+id+'】',
         closable: true,
         closeByBackdrop: false,
         closeByKeyboard: false,
@@ -224,12 +236,16 @@ function deleteItem(table, url, content, size){
  * @param table 操作的数据表
  * @param url 执行链接
  * @param content 提示内容
+ * @param index 索引行
  * @param size 窗体大小 size-normal, size-small(default), size-wide, size-large
  */
-function decideItem(table, url, content, size){
+function decideItem(table, url, content, index, size){
 	var id = getRowId(table);
 	if (!id) {
 		return;
+	}
+	if (index) {
+		$('#'+table).bootstrapTable("check", index);
 	}
 	BootstrapDialog.confirm({
 		size: size || 'size-small',

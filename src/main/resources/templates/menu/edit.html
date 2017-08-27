@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+	<!-- 表单页面 -->
+	<!-- <div class="panel"> -->
+	<form role="form" id="menuform" class="validate form-horizontal" autocomplete="off" th:object="${menu}">
+		<div class="form-group">
+			<label class="col-sm-4 control-label" for="parentId">所属项目</label>
+			<div class="col-sm-6">
+				<select class="form-control selectpicker required" id="projectId" name="projectId" th:field="*{projectId}">
+					<option th:each="project: ${projects}" th:value="${project.id}" th:text="${project.name}">menu</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label" for="name">菜单名称</label>
+			<div class="col-sm-6">
+				<input type="hidden" id="id" name="id" th:field="*{id}" />
+				<input type="text" class="form-control required" id="name" name="name" th:field="*{name}" placeholder="请输入菜单名称"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label" for="icon">菜单图标</label>
+			<div class="col-sm-6">
+				<input type="text" class="form-control" id="icon" name="icon" th:field="*{icon}"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label" for="sort">排序(9-0)</label>
+			<div class="col-sm-6">
+				<input type="number" class="form-control" id="sort" name="sort" th:field="*{sort}" value="0" min="0"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label" for="sort">备注说明</label>
+			<div class="col-sm-6">
+				<textarea class="form-control" rows="3" id="remark" name="remark" th:field="*{remark}"></textarea>
+			</div>
+		</div>
+	</form>
+	
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	$(document).ready(function(){
+		init_module();
+		$("#menuform").validate({
+			submitHandler:function(form){
+				$.post("/menu/save", $(form).serialize(), function(result){
+					if (result.meta.code=="2000") {
+						toastr.success(result.meta.message);
+						BootstrapDialog.close(form);
+			        	$("#table").bootstrapTable("refresh");
+					} else {
+						toastr.error(result.meta.message);
+					}
+				});
+			}
+	   });
+	});
+	/*]]>*/
+	</script>
+</html>

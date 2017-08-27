@@ -67,6 +67,9 @@
 	<logger name="cn.lemon.dubbo.rest.logs" level="INFO" additivity="false">
 		<appender-ref ref="VISIT_FILE" />
 	</logger>
+	<!-- 关闭访问过滤日志 -->
+	<logger name="com.alibaba.dubbo.rpc.filter.AccessLogFilter" level="OFF">
+	</logger>
 	<root level="info">
 		<appender-ref ref="STDOUT"/>
 		<appender-ref ref="DEBUG_FILE"/>

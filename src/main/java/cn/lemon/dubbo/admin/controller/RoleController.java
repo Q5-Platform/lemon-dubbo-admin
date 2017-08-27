@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import cn.lemon.dubbo.account.api.IUserService;
-import cn.lemon.dubbo.account.dto.UserDto;
+import cn.lemon.dubbo.system.api.IRoleService;
+import cn.lemon.dubbo.system.dto.RoleDto;
 import cn.lemon.framework.core.BasicController;
 import cn.lemon.framework.query.Page;
 import cn.lemon.framework.query.QueryPage;
@@ -27,73 +27,70 @@ import cn.lemon.framework.response.ResultResponse;
 import com.alibaba.dubbo.config.annotation.Reference;
 
 /**
- * 用户管理
+ * 角色管理
  * @date 2017年8月23日 下午9:12:41 <br>
  * @author lonyee
  */
-@RequestMapping("user")
+@RequestMapping("role")
 @Controller
-public class UserController extends BasicController {
+public class RoleController extends BasicController {
 	@Reference
-	private IUserService userService;
+	private IRoleService roleService;
 	
 	@RequestMapping("/index")
 	public String Index(Model model) {
-		return "user/index";
+		return "role/index";
 	}
 	
 	@RequestMapping("/add")
 	public String add(Model model) {
-		model.addAttribute("user", new UserDto());
-		return "user/edit";
+		model.addAttribute("role", new RoleDto());
+		return "role/edit";
 	}
 	
 	@RequestMapping("/edit/{id}")
-	public String edit(Model model, @PathVariable("id") Long id) {
+	public String edit(Model model, @PathVariable("id") Integer id) {
 		Long userId = this.getUserId();
-		model.addAttribute("user", userService.getById(userId, id));
-		return "user/edit";
+		model.addAttribute("role", roleService.getById(userId, id));
+		return "role/edit";
 	}
 	
 	@RequestMapping("/view/{id}")
-	public String view(Model model, @PathVariable("id") Long id) {
+	public String view(Model model, @PathVariable("id") Integer id) {
 		Long userId = this.getUserId();
-		model.addAttribute("user", userService.getById(userId, id));
-		return "user/edit";
+		model.addAttribute("role", roleService.getById(userId, id));
+		return "role/edit";
 	}
 	
-	@ApiOperation(value="查询用户分页信息",notes="返回分页数据")
+	@ApiOperation(value="查询角色分页信息",notes="返回分页数据")
 	@ResponseBody
 	@RequestMapping(value="/pager", method={RequestMethod.GET})
-	public ResultResponse pager(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, Long id, String mobile, String nickName, Integer auditted, QueryPage queryPage) {
+	public ResultResponse pager(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, String name, QueryPage queryPage) {
 		Long userId = this.getUserId();
-		queryPage.setCondition("id", id);
-		queryPage.setCondition("mobile", mobile);
-		queryPage.setCondition("nickName", nickName);
-		queryPage.setCondition("auditted", auditted);
-		Page page = userService.getListByPager(userId, queryPage);
+		queryPage.setCondition("name", name);
+		Page page = roleService.getListByPager(userId, queryPage);
 		return resultResponse.success(page);
 	}
 	
-	@ApiOperation(value="添加或修改用户信息",notes="返回success")
+	@ApiOperation(value="添加或修改角色信息",notes="返回success")
 	@ResponseBody
 	@RequestMapping(value="/save", method={RequestMethod.POST})
-	public ResultResponse save(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, UserDto userDto) {
+	public ResultResponse save(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, RoleDto roleDto) {
 		Long userId = this.getUserId();
-		if (userDto.getId()==null || userDto.getId()==0) {
-			userService.save(userId, userDto);
+		if (roleDto.getId()==null || roleDto.getId()==0) {
+			roleService.save(userId, roleDto);
 		} else {
-			userService.update(userId, userDto);
+			roleService.update(userId, roleDto);
 		}
 		return resultResponse.success();
 	}
 	
-	@ApiOperation(value="删除用户信息",notes="返回success")
+	@ApiOperation(value="删除角色信息",notes="返回success")
 	@ResponseBody
 	@RequestMapping(value="/delete/{id}", method={RequestMethod.POST})
-	public ResultResponse delete(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, @PathVariable("id") Long id) {
+	public ResultResponse delete(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, @PathVariable("id") Integer id) {
 		Long userId = this.getUserId();
-		userService.delete(userId, id);
+		roleService.delete(userId, id);
 		return resultResponse.success();
 	}
 	

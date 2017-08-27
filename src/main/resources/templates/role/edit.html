@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+	<!-- 表单角色 -->
+	<!-- <div class="panel"> -->
+	<form role="form" id="roleform" class="validate form-horizontal" autocomplete="off" th:object="${role}">
+		<div class="form-group">
+			<label class="col-sm-4 control-label" for="name">角色名称</label>
+			<div class="col-sm-6">
+				<input type="hidden" id="id" name="id" th:field="*{id}"></input>
+				<input type="text" class="form-control required" id="name" name="name" th:field="*{name}" placeholder="请输入角色名称"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label" for="sort">备注说明</label>
+			<div class="col-sm-6">
+				<textarea class="form-control" rows="3" id="remark" name="remark" th:field="*{remark}"></textarea>
+			</div>
+		</div>
+	</form>
+	
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	$(document).ready(function(){
+		init_module();
+		$("#roleform").validate({
+			submitHandler:function(form){
+				$.post("/role/save", $(form).serialize(), function(result){
+					if (result.meta.code=="2000") {
+						toastr.success(result.meta.message);
+						BootstrapDialog.close(form);
+			        	$("#table").bootstrapTable("refresh");
+					} else {
+						toastr.error(result.meta.message);
+					}
+				});
+			}
+	   });
+	});
+	/*]]>*/
+	</script>
+</html>

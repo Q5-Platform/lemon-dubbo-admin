@@ -27,14 +27,6 @@ public class SpringConfiguration extends WebMvcConfigurerAdapter{
 	private String[] interceptorExcludes; //设置排除拦截的地址
 	
 	@Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/login").setViewName("login");
-        registry.addViewController("/index").setViewName("index");
-        registry.addViewController("/locked").setViewName("locked");
-        registry.addViewController("/demo").setViewName("demo/demo");
-    }
-	
-	@Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
             .allowedOrigins(crossMapping)

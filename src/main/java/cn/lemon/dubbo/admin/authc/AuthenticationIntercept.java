@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-import org.springframework.web.servlet.mvc.ParameterizableViewController;
 
 import cn.lemon.dubbo.account.api.IAuthenticationService;
 import cn.lemon.framework.response.ResultMessage;
@@ -43,9 +42,7 @@ public class AuthenticationIntercept extends HandlerInterceptorAdapter {
 			return true;
 		}
 		boolean isRestUri = false;
-		if (handler instanceof ParameterizableViewController) {
-			isRestUri = false;
-		} else {
+		if (handler instanceof HandlerMethod) {
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
 			Method method = handlerMethod.getMethod();
 			isRestUri = ResultResponse.class.equals(method.getReturnType());

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+	<!-- 表单页面 -->
+	<!-- <div class="panel"> -->
+	<form role="form" id="projectForm" class="validate form-horizontal" autocomplete="off" th:object="${project}">
+		<div class="form-group">
+			<label class="col-sm-4 control-label" for="code">项目代号</label>
+			<div class="col-sm-6">
+				<input type="hidden" id="id" name="id" th:field="*{id}"></input>
+				<input type="text" class="form-control required" id="code" name="code"  th:field="*{code}" placeholder="请输入项目代号"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label" for="name">项目名称</label>
+			<div class="col-sm-6">
+				<input type="text" class="form-control required" id="name" name="name" th:field="*{name}" placeholder="请输入项目名称"/>
+			</div>
+		</div>
+	</form>
+	
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	$(document).ready(function(){
+		init_module();
+		$("#projectForm").validate({
+			submitHandler:function(form){
+				$.post("/project/save", $(form).serialize(), function(result){
+					if (result.meta.code=="2000") {
+						toastr.success(result.meta.message);
+						BootstrapDialog.close(form);
+			        	$("#table").bootstrapTable("refresh");
+					} else {
+						toastr.error(result.meta.message);
+					}
+				});
+			}
+	   });
+	});
+	/*]]>*/
+	</script>
+</html>

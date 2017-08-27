@@ -11,7 +11,7 @@ var public_vars = public_vars || {};
 	"use strict";
 	
 	$(document).ready(function()
-	{		
+	{	
 		// Main Vars
 		public_vars.$body                 = $("body");
 		public_vars.$pageContainer        = public_vars.$body.find(".page-container");
@@ -374,6 +374,8 @@ var public_vars = public_vars || {};
 		if (xhr.status===401) {
 			//options.url
 			location.href = "/login?redirect_url="+ encodeURIComponent(location.href);
+		} if (xhr.status===403) {
+			BootstrapDialog.alert("您没有接口访问权限 ["+ options.url +"]");
 		} else {
 			BootstrapDialog.alert("服务器访问异常  " + errorMsg);
 		}

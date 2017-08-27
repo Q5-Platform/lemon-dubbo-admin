@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="fragments/layout">
+<head>
+   <title>LEMON后台管理系统 - 菜单列表</title>
+</head>
+
+<body class="page-body skin-navy">
+	<!-- 右侧引导菜单 -->
+	<div class="page-title" layout:fragment="navigation" th:include="fragments/resource::page-navigation (菜单列表)">
+		
+	</div>
+	
+	<!-- 具体页面内容 -->
+	<div class="content" layout:fragment="content">
+	  <form class="form-inline panel-search" autocomplete="off">
+		<div class="form-group">
+	  		<label class="control-label" for="sprojectId">所属项目</label>
+	  		<select class="selectpicker form-control " id="sprojectId" name="projectId">
+	  			<option value="">全部</option>
+				<option th:each="project: ${projects}" th:value="${project.id}" th:text="${project.name}">menu</option>
+			</select>
+		</div>
+	  	<div class="form-group">
+	  		<label class="control-label" for="sname">菜单名称</label>
+			<input type="text" class="form-control" id="sname" name="name" placeholder="菜单名称"/>
+		</div>
+		<div class="form-group">
+			<button id="search" type="button" class="btn btn-info btn-single btn-icon">
+				<i class="fa-search"></i>
+				<span>查询</span>
+			</button>
+		</div>
+	  </form>
+	  <div id="btnlist" class="btn-group btn-group-sm btn-tool">
+		<button class="btn btn-default btn-icon append">
+			<i class="fa-plus"></i>
+			<span>添加</span>
+		</button>
+		<button class="btn btn-default btn-icon modify">
+			<i class="fa-edit"></i>
+			<span>修改</span>
+		</button>
+		<button class="btn btn-default btn-icon delete">
+			<i class="fa-trash-o"></i>
+			<span>删除</span>
+		</button>
+		<button class="btn btn-default btn-icon view">
+			<i class="fa-file-text-o"></i>
+			<span>详情</span>
+		</button>
+	</div>
+	<!-- 数据列表展示 hidden-->
+	<table id="table" data-toggle="table" data-toolbar="#btnlist" data-url='/menu/pager' data-mobile-responsive="true" data-sort-name="sort" data-sort-order="desc" data-show-export="true">
+		<thead>
+			<tr>
+				<th data-checkbox="true" class="hidden"></th>  <!-- class="hidden" -->
+				<th data-field="id" data-width="10%">编号</th>
+				<th data-field="icon" data-width="10%" data-align="center" data-formatter="iconFormatter">图标</th>
+				<th data-field="name" data-width="20%">菜单名称</th>
+				<th data-field="projectName" data-width="20%">所属项目</th>
+				<th data-field="projectId" data-width="10%" data-visible="false">项目ID</th>
+				<th data-field="sort" data-width="20%">排序</th>
+				<th data-field="operate" data-width="10%" data-align="center" data-formatter="operateFormatter" data-events="operateEvents">操作</th>
+			</tr>
+		</thead>
+	</table>
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	$(function(){
+		$("#btnlist").on("click",".append", function () { 
+			appendItem('/menu/add', '添加菜单');
+		});
+		$("#btnlist").on("click",".modify", function () { 
+			modifyItem('table','/menu/edit/', '修改菜单');
+		});
+		$("#btnlist").on("click",".delete", function () { 
+			deleteItem('table', '/menu/delete/', '是否删除菜单');
+		});
+		$("#btnlist").on("click",".view", function () { 
+			viewItem('table', '/menu/view/', '菜单详情');
+		});
+		$("#search").on("click", function () {
+			$('#table').bootstrapTable('refresh');
+		});
+	});
+	
+	var iconFormatter = function(value, row, index){
+		return "<i class=\"fa "+ value +"\"></i>";
+	}
+	
+	function operateFormatter(value, row, index) {
+		var spArray = ['<i class="action fa-edit modify" title="修改"></i>',
+		               '<i class="action fa-trash-o delete" title="删除"></i>']
+        return "<span>"+ spArray.join('')+ "</span>";
+    }
+	
+	var operateEvents = {
+            'click .modify': function (e, value, row, index) {
+            	$("#table").bootstrapTable("check", index);
+            	modifyItem('table','/menu/edit/', '修改菜单');
+         },
+            'click .delete': function (e, value, row, index) {
+            	$("#table").bootstrapTable("check", index);
+            	deleteItem('table', '/menu/delete/', '是否删除菜单');
+         }
+        };
+	/*]]>*/
+	</script>
+	</div>
+</body>
+</html>

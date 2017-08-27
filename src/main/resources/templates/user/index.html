@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="fragments/layout">
+<head>
+   <title>LEMON后台管理系统 - 用户列表</title>
+</head>
+
+<body class="page-body skin-navy">
+	<!-- 右侧引导用户 -->
+	<div class="page-title" layout:fragment="navigation" th:include="fragments/resource::page-navigation (用户列表)">
+		
+	</div>
+	
+	<!-- 具体页面内容 -->
+	<div class="content" layout:fragment="content">
+	  <form class="form-inline panel-search" autocomplete="off">
+	    <div class="form-group">
+	  		<label class="control-label" for="sauditted">实名认证</label>
+	  		<select class="selectpicker form-control " id="sauditted" name="auditted">
+	  			<option value="">全部</option>
+	  			<option value="0">未认证</option>
+	  			<option value="1">待认证</option>
+	  			<option value="5">未通过</option>
+	  			<option value="9">已认证</option>
+			</select>
+		</div>
+	  	<div class="form-group">
+	  		<label class="control-label" for="sid">编号</label>
+			<input type="text" class="form-control" id="sid" name="id"/>
+		</div>
+	  	<div class="form-group">
+	  		<label class="control-label" for="smobile">手机号</label>
+			<input type="text" class="form-control" id="smobile" name="mobile"/>
+		</div>
+	  	<div class="form-group">
+	  		<label class="control-label" for="snickName">昵称</label>
+			<input type="text" class="form-control" id="snickName" name="nickName"/>
+		</div>
+		<div class="form-group">
+			<button id="search" type="button" class="btn btn-info btn-single btn-icon">
+				<i class="fa-search"></i>
+				<span>查询</span>
+			</button>
+		</div>
+	  </form>
+	  <div id="btnlist" class="btn-group btn-group-sm btn-tool">
+		<button class="btn btn-default btn-icon append">
+			<i class="fa-plus"></i>
+			<span>添加</span>
+		</button>
+		<button class="btn btn-default btn-icon modify">
+			<i class="fa-edit"></i>
+			<span>修改</span>
+		</button>
+		<button class="btn btn-default btn-icon delete">
+			<i class="fa-trash-o"></i>
+			<span>删除</span>
+		</button>
+		<button class="btn btn-default btn-icon view">
+			<i class="fa-file-text-o"></i>
+			<span>详情</span>
+		</button>
+	</div>
+	<!-- 数据列表展示 hidden-->
+	<table id="table" data-toggle="table" data-toolbar="#btnlist" data-url='/user/pager' data-mobile-responsive="true" data-sort-name="sort" data-sort-order="desc" data-show-export="true">
+		<thead>
+			<tr>
+				<th data-checkbox="true" class="hidden"></th>  <!-- class="hidden" -->
+				<th data-field="id" data-width="12%">编号</th>
+				<th data-field="headImageUrl" data-width="5%" data-formatter="headImageFormatter">头像</th>
+				<th data-field="mobile" data-width="10%">手机号码</th>
+				<th data-field="nickName" data-width="10%">昵称</th>
+				<th data-field="sex" data-width="5%" data-formatter="sexFormatter">性别</th>
+				<th data-field="remark" data-width="10%">备注说明</th>
+				<th data-field="auditted" data-width="5%" data-formatter="audittedFormatter">实名认证</th>
+				<th data-field="createdDate" data-width="12%">注册时间</th>
+				<th data-field="operate" data-width="8%" data-align="center" data-formatter="operateFormatter" data-events="operateEvents">操作</th>
+			</tr>
+		</thead>
+	</table>
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	$(function(){
+		$("#btnlist").on("click",".append", function () { 
+			appendItem('/user/add', '添加用户');
+		});
+		$("#btnlist").on("click",".modify", function () { 
+			modifyItem('table','/user/edit/', '修改用户');
+		});
+		$("#btnlist").on("click",".delete", function () { 
+			deleteItem('table', '/user/delete/', '是否删除用户');
+		});
+		$("#btnlist").on("click",".view", function () { 
+			viewItem('table', '/user/edit/', '用户详情');
+		});
+		$("#search").on("click", function () {
+			$('#table').bootstrapTable('refresh');
+		});
+	});
+	
+	var audittedFormatter = function(value, row, index){
+		var span = "<span>未认证</span>";
+		switch(value) {
+		case '1':
+			span = "<span>待认证</span>";
+			break;
+		case '5':
+			span = "<span>未通过</span>";
+			break;
+		case '9':
+			span = "<span>已认证</span>";
+			break;
+		default:
+			span = "<span>未认证</span>";
+			break;
+		}
+        return span;
+	}
+	
+	var sexFormatter = function(value, row, index){
+		var span = "<span>未知</span>";
+		switch(value) {
+		case '1':
+			span = "<span>男性</span>";
+			break;
+		case '2':
+			span = "<span>女性</span>";
+			break;
+		default:
+			span = "<span>未知</span>";
+			break;
+		}
+        return span;
+	}
+	
+	var headImageFormatter = function(value, row, index){
+		return value? "<img style='width:30px; height:30px; margin-top: -11px; margin-bottom: -10px;' src='"+ value +"'/>": '';
+	}
+	
+	function operateFormatter(value, row, index) {
+		var spArray = ['<i class="action fa-edit modify" title="修改"></i>',
+		               '<i class="action fa-trash-o delete" title="删除"></i>']
+        return "<span>"+ spArray.join('')+ "</span>";
+    }
+	
+	var operateEvents = {
+            'click .modify': function (e, value, row, index) {
+            	$("#table").bootstrapTable("check", index);
+            	modifyItem('table','/user/edit/', '修改用户');
+         },
+            'click .delete': function (e, value, row, index) {
+            	$("#table").bootstrapTable("check", index);
+            	deleteItem('table', '/user/delete/', '是否删除用户');
+         }
+        };
+	/*]]>*/
+	</script>
+	</div>
+</body>
+</html>
