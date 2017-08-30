@@ -4,8 +4,6 @@
    <link rel="stylesheet" href="/assets/css/fonts/linecons/css/linecons.css" th:href="@{/assets/css/fonts/linecons/css/linecons.css}"></link>
    <link rel="stylesheet" href="/assets/css/fonts/fontawesome/css/font-awesome.min.css" th:href="@{/assets/css/fonts/fontawesome/css/font-awesome.min.css}"></link>
    <link rel="stylesheet" href="/assets/css/bootstrap.css" th:href="@{/assets/css/bootstrap.css}"></link>
-   <link rel="stylesheet" href="/assets/js/wysihtml5/lib/css/prettify.css" th:href="@{/assets/js/wysihtml5/lib/css/prettify.css}"></link>
-   <link rel="stylesheet" href="/assets/js/wysihtml5/src/bootstrap-wysihtml5.css" th:href="@{/assets/js/wysihtml5/src/bootstrap-wysihtml5.css}"></link>
    <link rel="stylesheet" href="/assets/js/table/bootstrap-table.min.css" th:href="@{/assets/js/table/bootstrap-table.min.css}"></link>
    <link rel="stylesheet" href="/assets/css/lemon-core.css" th:href="@{/assets/css/lemon-core.css}"></link>
    <link rel="stylesheet" href="/assets/css/lemon-forms.css" th:href="@{/assets/css/lemon-forms.css}"></link>
@@ -67,15 +65,9 @@
 	<!-- 地图插件 -->
 	<!-- <script type="text/javascript" src="/assets/js/jvectormap/jquery-jvectormap-1.2.2.min.js" th:src="@{/assets/js/jvectormap/jquery-jvectormap-1.2.2.min.js}"></script> -->
 	<!-- <script type="text/javascript" src="/assets/js/jvectormap/regions/jquery-jvectormap-world-mill-en.js" th:src="@{/assets/js/jvectormap/regions/jquery-jvectormap-world-mill-en.js}"></script> -->
-	<!-- 编辑器组件 -->
-	<script type="text/javascript" src="/assets/js/wysihtml5/lib/js/prettify.js" th:src="@{/assets/js/wysihtml5/lib/js/prettify.js}"></script>
-	<script type="text/javascript" src="/assets/js/wysihtml5/lib/js/wysihtml5-0.3.0.js" th:src="@{/assets/js/wysihtml5/lib/js/wysihtml5-0.3.0.js}"></script>
-	<script type="text/javascript" src="/assets/js/wysihtml5/src/bootstrap-wysihtml5.js" th:src="@{/assets/js/wysihtml5/src/bootstrap-wysihtml5.js}"></script>
-	<script type="text/javascript" src="/assets/js/wysihtml5/src/locales/bootstrap-wysihtml5.zh-CN.js" th:src="@{/assets/js/wysihtml5/src/locales/bootstrap-wysihtml5.zh-CN.js}"></script>
 	<script type="text/javascript" src="/assets/js/toastr/toastr.js" th:src="@{/assets/js/toastr/toastr.js}"></script>
 	<!-- tags -->
 	<script type="text/javascript" src="/assets/js/tagsinput/bootstrap-tagsinput.min.js" th:src="@{/assets/js/tagsinput/bootstrap-tagsinput.min.js}"></script>
-	<script type="text/javascript" src="/assets/js/city-picker/city-picker.js" th:src="@{/assets/js/city-picker/city-picker.js}"></script>
 	
 	<!-- 自定义 -->
 	<script type="text/javascript" src="/assets/js/lemon-action.js" th:src="@{/assets/js/lemon-action.js}"></script>
@@ -166,11 +158,11 @@
 		<i class="fa-angle-down"></i>
 	</a>
 	<ul class="dropdown-menu user-profile-menu list-unstyled">
-		<li><a href="javascript:void(0);" onclick="actionItem('/manager/profile', '我的信息')">
+		<li><a href="javascript:void(0);" onclick="actionItem('/profile', '我的信息')">
 			<i class="fa-user"></i> 我的信息
 			</a>
 		</li>
-		<li><a href="javascript:void(0);" onclick="actionItem('/manager/newPassword', '修改密码')">
+		<li><a href="javascript:void(0);" onclick="actionItem('/newPassword', '修改密码')">
 			<i class="fa-wrench"></i> 修改密码
 			</a>
 		</li>
@@ -178,9 +170,13 @@
 			<i class="fa-info"></i> 帮助说明
 			</a>
 		</li> -->
+		<li><a href="javascript:void(0);" class="locked">
+			<i class="fa-lock"></i> 锁定系统
+			</a>
+		</li>
 		<li class="last">
-			<a href="javascript:void(0);" onclick="location.replace('/manager/logout')">
-			<i class="fa-lock"></i> 退出系统
+			<a href="javascript:void(0);" class="exit">
+			<i class="fa-unlock"></i> 安全退出
 			</a>
 		</li>
 	</ul>
@@ -192,6 +188,14 @@
 			$("#suserName").text(userinfo.nickName);
 			$("#userImage").attr("src", userinfo.imageUrl? userinfo.imageUrl: "/assets/images/user-4.png");
 		}
+		$(".locked").on("click", function(){
+			var redirect_url = encodeURIComponent(location.href);
+			location.replace('/locked?redirect_url=' +redirect_url);
+		});
+		$(".exit").on("click", function(){
+			localStorage.clear();
+			location.replace('/logout');
+		});
 	});
 	/*]]>*/
 	</script>

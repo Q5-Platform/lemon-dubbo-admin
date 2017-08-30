@@ -4,6 +4,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +19,8 @@ import cn.lemon.dubbo.account.api.IUserService;
 import cn.lemon.dubbo.account.dto.LoginUserDto;
 import cn.lemon.dubbo.account.dto.UserDto;
 import cn.lemon.dubbo.admin.vo.UserVo;
+import cn.lemon.dubbo.system.api.IMenuService;
+import cn.lemon.dubbo.system.dto.MenuDto;
 import cn.lemon.framework.core.BasicController;
 import cn.lemon.framework.response.ResultResponse;
 import cn.lemon.framework.response.ServiceException;
@@ -31,36 +35,50 @@ public class IndexController extends BasicController {
 	@Reference
 	private IUserService userService;
 	@Reference
+	private IMenuService menuService;
+	@Reference
 	private IAuthenticationService authenticationService;
 	
-	@RequestMapping("/login")
+	@RequestMapping(value="/login", method={RequestMethod.GET})
 	public String login() {
 		return "login";
 	}
 	
-	@RequestMapping("/")
+	@RequestMapping(value="/", method={RequestMethod.GET})
 	public String home() {
 		return "index";
 	}
 	
-	@RequestMapping("/index")
+	@RequestMapping(value="/index", method={RequestMethod.GET})
 	public String index() {
 		return "index";
 	}
 	
-	@RequestMapping("/locked")
+	@RequestMapping(value="/403", method={ RequestMethod.GET })
+	public String page403() {
+		return "403";
+	}
+	
+	@RequestMapping(value="/404", method={ RequestMethod.GET })
+	public String page404() {
+		return "404";
+	}
+	
+	@RequestMapping(value="/locked", method={RequestMethod.GET})
 	public String locked() {
+		CookieUtil.removeAllCookie(request, response);
 		return "locked";
 	}
 	
-	@RequestMapping("/demo")
+	@RequestMapping(value="/demo", method={RequestMethod.GET})
 	public String demo() {
 		return "demo/demo";
 	}
 	
-	@RequestMapping("/logout")
+	@RequestMapping(value="/logout", method={RequestMethod.GET})
 	public String logout(@CookieValue(value=TOKEN, required=false) String token) {
 		authenticationService.logout(token);
+		CookieUtil.removeAllCookie(request, response);
 		return "redirect:/login";
 	}
     
@@ -71,7 +89,7 @@ public class IndexController extends BasicController {
 			@ApiParam(value="手机号", required=true) @RequestParam(required=true) String mobile, 
 			@ApiParam(value="密码", required=true) @RequestParam(required=true) String password, 
 			@ApiParam(value="昵称") @RequestParam(required=false) String nickName) throws ServiceException {
-		authenticationService.register(token, mobile, password, nickName, "123456");
+		authenticationService.register(token, mobile, password, nickName, "lemon-admin");
 		return resultResponse.success();
 	}
 	
@@ -81,10 +99,23 @@ public class IndexController extends BasicController {
 	public ResultResponse login(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=false) String token, 
 			@ApiParam(value="手机号", required=true) @RequestParam(required=true) String mobile, 
 			@ApiParam(value="密码", required=true) @RequestParam(required=true) String password) throws ServiceException {
-		LoginUserDto user = authenticationService.login(token, mobile, password, "123456");
+		LoginUserDto user = authenticationService.login(token, mobile, password, "lemon-admin");
 		CookieUtil.setCookie(request, response, TOKEN, user.getToken(), 2);
 		return resultResponse.success(user);
 	}
+    
+    @ApiOperation(value="用户解锁",notes="返回TOKEN")
+    @ResponseBody
+	@RequestMapping(value="/user/unlock", method={RequestMethod.POST})
+	public ResultResponse unlock(@ApiParam(value="授权凭证") @RequestParam(required=true) String token, 
+			@ApiParam(value="手机号", required=true) @RequestParam(required=true) String mobile, 
+			@ApiParam(value="密码", required=true) @RequestParam(required=true) String password) throws ServiceException {
+		authenticationService.hasLogined(token, mobile, password, "lemon-admin");
+		CookieUtil.setCookie(request, response, TOKEN, token, 2);
+		return resultResponse.success();
+	}
+    
+    
     
     @ApiOperation(value="获取我的详细信息",notes="返回用户详细信息")
     @ResponseBody
@@ -103,5 +134,17 @@ public class IndexController extends BasicController {
     	Long userId = this.getUserId();
     	userService.updateProfile(userId, BeanUtil.toBeanValues(user, UserDto.class));
 		return resultResponse.success();
+	}
+	
+	/**
+	 * 获取菜单数据
+	 */
+	@ResponseBody
+	@RequestMapping(value="/menus", method = RequestMethod.GET)
+	public ResultResponse menus(@CookieValue(value=TOKEN, required=true) String token) {
+		Long userId = this.getUserId();
+		String projectCode = authenticationService.getScope(token);
+		List<MenuDto> list = menuService.getMenuTree(projectCode, userId);
+		return resultResponse.success(list);
 	}
 }

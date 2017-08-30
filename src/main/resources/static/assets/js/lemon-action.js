@@ -132,15 +132,13 @@ function appendItem(url, title, size, buttons){
  * @param buttons 操作按钮
  */
 function modifyItem(table, url, title, index, size, buttons){
-	var id = getRowId(table);
+	var id = getRowId(table, index);
 	if (!id) {
+		toastr.warning("请选择需要修改的数据");
 		return;
 	}
 	if (!buttons) {
 		buttons = [actionButtons.cancel, actionButtons.save];
-	}
-	if (index) {
-		$('#'+table).bootstrapTable("check", index);
 	}
 	BootstrapDialog.show({
 		size: size || 'size-normal',
@@ -166,12 +164,10 @@ function modifyItem(table, url, title, index, size, buttons){
  * @param size 窗体大小 size-normal(default), size-small, size-wide, size-large
  */
 function viewItem(table, url, title, index, size){
-	var id = getRowId(table);
+	var id = getRowId(table, index);
 	if (!id) {
+		toastr.warning("请选择需要查看的数据");
 		return;
-	}
-	if (index) {
-		$('#'+table).bootstrapTable("check", index);
 	}
 	BootstrapDialog.show({
 		size: size || 'size-normal',
@@ -196,12 +192,10 @@ function viewItem(table, url, title, index, size){
  * @param size 窗体大小 size-normal, size-small(default), size-wide, size-large
  */
 function deleteItem(table, url, content, index, size){
-	var id = getRowId(table);
+	var id = getRowId(table, index);
 	if (!id) {
+		toastr.warning("请选择需要删除的数据");
 		return;
-	}
-	if (index) {
-		$('#'+table).bootstrapTable("check", index);
 	}
 	BootstrapDialog.confirm({
 		size: size || 'size-small',
@@ -240,12 +234,10 @@ function deleteItem(table, url, content, index, size){
  * @param size 窗体大小 size-normal, size-small(default), size-wide, size-large
  */
 function decideItem(table, url, content, index, size){
-	var id = getRowId(table);
+	var id = getRowId(table, index);
 	if (!id) {
+		toastr.warning("请选择需要操作的数据");
 		return;
-	}
-	if (index) {
-		$('#'+table).bootstrapTable("check", index);
 	}
 	BootstrapDialog.confirm({
 		size: size || 'size-small',
@@ -300,7 +292,10 @@ function actionItem(url, title, size, buttons){
 	});
 }
 
-function getRowId(table) {
+function getRowId(table, index) {
+	if (index!=null && index!='') {
+		$('#'+table).bootstrapTable("check", index);
+	}
 	var row = $('#'+table).bootstrapTable('getSelections');
 	if (row && row.length>0){
 		return row[0].id;

@@ -385,8 +385,6 @@ var public_vars = public_vars || {};
 
 //初始化组件
 function init_module() {
-	citypicker();
-	
 	
 	//selectpicker
 	if($.isFunction($.fn.selectpicker))

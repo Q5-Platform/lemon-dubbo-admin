@@ -54,7 +54,7 @@
 			<tr>
 				<th data-checkbox="true" class="hidden"></th>  <!-- class="hidden" -->
 				<th data-field="id" data-width="10%">编号</th>
-				<th data-field="code" data-width="20%" data-align="center">项目代号</th>
+				<th data-field="code" data-width="20%">项目代号</th>
 				<th data-field="name" data-width="20%">项目名称</th>
 				<th data-field="creator" data-width="20%">创建人员</th>
 				<th data-field="createdDate" data-width="20%">创建时间</th>
@@ -83,8 +83,9 @@
 	});
 		
 	function operateFormatter(value, row, index) {
-		var spArray = ['<i class="action fa-edit modify" title="修改"></i>',
-		               '<i class="action fa-trash-o delete" title="删除"></i>']
+		var spArray = new Array();
+		spArray.push('<i class="action fa-edit modify" title="修改"></i>');
+		spArray.push('<i class="action fa-trash-o delete" title="删除"></i>');
         return "<span>"+ spArray.join('')+ "</span>";
     }
 	

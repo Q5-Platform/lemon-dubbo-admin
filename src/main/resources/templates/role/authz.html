@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+	<!-- 表单角色 -->
+	<!-- <div class="panel"> -->
+	<form role="form" id="roleform" class="validate form-horizontal" autocomplete="off" th:object="${roleMemus}">
+		<table class="table role-table">
+			<thead>
+				<tr>
+				  <th width="25%">项目
+					  <label>
+						全选
+						<input type="hidden" id="id" name="id" th:value="${id}"></input>
+					  	<input type="checkbox" value="0" class="select-all" th:attr="item='acctions'"/>
+					  </label>
+				  </th>
+				  <th width="25%">菜单</th>
+				  <th width="50%">页面</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="roleMemu:${roleMemus}">
+					<td>
+						<label>
+							<input type="checkbox" class="select-all" th:attr="item='acctions_0'" th:value="${roleMemu.id}"/>
+							<span th:text="${roleMemu.name}"></span>
+						</label>
+					 </td>
+					 <td colspan="2">
+					 	<table style="width:100%">
+						 <tbody>
+						 <tr th:each="menu,menuStat:${roleMemu.children}">
+						  <td width="35%" th:style="${menuStat.last}?'border-bottom: 0;'">
+							<label>
+								<input type="checkbox" class="select-all" th:attr="item='acctions_0_'+${roleMemu.id}" name="menuIds" th:checked="${menu.checked}" th:value="${menu.id}"/>
+								<span th:text="${menu.name}"></span>
+							</label>
+						  </td>
+						  <td width="65%" th:style="${menuStat.last}?'border-bottom: 0;'">
+							<label th:each="page:${menu.children}">
+								<input type="checkbox" class="select-item" th:attr="item='acctions_0_'+${roleMemu.id}+'_'+${menu.id}" name="menuIds" th:checked="${page.checked}" th:value="${page.id}"/>
+								<span th:text="${page.name}"></span>
+							</label>
+						  </td>
+						</tr>
+						</tbody>
+						</table>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+	
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	$(document).ready(function(){
+		init_module();
+		$("#roleform").validate({
+			submitHandler:function(form){
+				$.post("/role/authzed", $(form).serialize(), function(result){
+					if (result.meta.code=="2000") {
+						toastr.success(result.meta.message);
+						BootstrapDialog.close(form);
+			        	$("#table").bootstrapTable("refresh");
+					} else {
+						toastr.error(result.meta.message);
+					}
+				});
+			}
+	    });
+
+		$(".select-all").on("click", function() {
+			var name = $(this).attr("item") + "_"+ $(this).val();
+			$("input[item="+name+"]").prop("checked", !$(this).prop("checked"));
+			$("input[item="+name+"]").trigger("click");
+		});
+		
+		$(".select-item").on("click", function() {
+			var chk = $(this).prop("checked");
+			if (!chk) {
+				var name = $(this).attr("item");
+				var lng = $("input[item="+name+"]:checked").length;
+				chk = lng>0;
+			}
+			var chkbox = $(this).parent().parent("td").prev().find("input[type='checkbox']");
+			chkbox.prop("checked", chk);
+		});
+	});
+	
+	/*]]>*/
+	</script>
+</html>

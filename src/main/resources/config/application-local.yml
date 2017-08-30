@@ -8,7 +8,7 @@ spring:
   cross:
     mapping: "*"  # 设置跨域访问域名
   interceptor:
-    excludes: /login, /user/*/code, /user/login, /user/register, /user/logout, /error, /swagger**, /v2/api-docs, /configuration/security, /configuration/ui, /favicon.ico
+    excludes: /login, /locked, /logout, /403, /404, /user/*/code, /user/login, /user/unlock, /user/register, /user/logout, /error, /swagger**, /v2/api-docs, /configuration/security, /configuration/ui, /favicon.ico
 
 dubbo:
   application:  # 提供方应用信息，用于计算依赖关系

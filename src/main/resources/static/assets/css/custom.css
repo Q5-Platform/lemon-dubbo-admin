@@ -33,12 +33,15 @@ a {
 	display: inherit !important;
     visibility: visible !important;
 }
-.dropup>.btn {
+.form-group .bootstrap-select>.btn {
+	border-color: #e4e4e4;
+}
+/* .dropup>.btn {
 	border-color: #cccccc;
 	height: 25px;
     top: 3px;
     padding-top: 3px;
-}
+} */
 .page-title .user-info-navbar {
 	background-color: #f8f8f8;
 	border: 0;
@@ -198,6 +201,31 @@ form .form-group .form-control.error + span {
 	margin-bottom:-5px;
 	vertical-align: middle;
 	cursor: pointer;
+}
+
+.radio-label {
+	margin-top:5px;
+}
+
+.role-table > tbody > tr > td {
+	vertical-align: middle;
+}
+.role-table > tbody > tr > td > label {
+    margin-right: 8px;
+}
+.role-table table > tbody > tr > td {
+	vertical-align: middle;
+	border-top: 0;
+    border-bottom: 1px solid #eeeeee;
+}
+.role-table table > tbody > tr > td > label {
+    margin-top: 3px;
+    margin-right: 8px;
+    margin-bottom: 5px;
+}
+
+label input[type="checkbox"] {
+	vertical-align: top;
 }
 
 /* 模拟菜单显示 */

@@ -139,19 +139,24 @@
 	}
 	
 	function operateFormatter(value, row, index) {
-		var spArray = ['<i class="action fa-edit modify" title="修改"></i>',
-		               '<i class="action fa-trash-o delete" title="删除"></i>']
+		var spArray = new Array();
+		spArray.push('<i class="action fa-edit modify" title="修改"></i>');
+		if (row.auditted!=9) {
+			spArray.push('<i class="action fa-shield audit" title="实名认证"></i>');
+		}
+		spArray.push('<i class="action fa-trash-o delete" title="删除"></i>');
         return "<span>"+ spArray.join('')+ "</span>";
     }
 	
 	var operateEvents = {
             'click .modify': function (e, value, row, index) {
-            	$("#table").bootstrapTable("check", index);
-            	modifyItem('table','/user/edit/', '修改用户');
+            	modifyItem('table','/user/edit/', '修改用户', index);
          },
+             'click .audit': function (e, value, row, index) {
+             	modifyItem('table','/user/audit/', '实名认证', index);
+          },
             'click .delete': function (e, value, row, index) {
-            	$("#table").bootstrapTable("check", index);
-            	deleteItem('table', '/user/delete/', '是否删除用户');
+            	deleteItem('table', '/user/delete/', '是否删除用户', index);
          }
         };
 	/*]]>*/

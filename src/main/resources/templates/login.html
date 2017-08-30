@@ -52,16 +52,10 @@
 		$(document).ready(function(){
 			// Reveal Login form
 			setTimeout(function() { $(".fade-in-effect").addClass('in'); }, 1);
-			
 			$("#loginform").validate({
 				submitHandler:function(form){
 		            $.post("/user/login", $(form).serialize(), function(result){
 		            	if (result.meta.code==2000) {
-		            		$.ajax({  
-		          				beforeSend :function(xhr){  
-		          					xhr.setRequestHeader('x-auth-token', result.data.token); //设置消息头
-		          				}
-		          			});
 		            		localStorage.setItem("userinfo", JSON.stringify(result.data));
 		            		var redirect_url = $.getUrlParam("redirect_url");
 		            		if (redirect_url) {

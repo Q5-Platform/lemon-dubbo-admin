@@ -7,8 +7,9 @@
 		<div class="form-group">
 			<label class="col-sm-4 control-label" for="parentId">所属页面</label>
 			<div class="col-sm-6">
+				<input type="hidden" id="projectId" name="projectId" th:field="*{projectId}"></input>
 				<select class="form-control selectpicker required" id="parentId" name="parentId" th:field="*{parentId}">
-					<option th:each="menu: ${menus}" th:value="${menu.id}" th:text="${menu.name}">menu</option>
+					<option th:each="menu: ${menus}" th:attr="data-projectId=${menu.projectId}" th:value="${menu.id}" th:text="${menu.name}">menu</option>
 				</select>
 			</div>
 		</div>
@@ -67,7 +68,12 @@
 					}
 				});
 			}
-	   });
+	    });
+		
+		$("#parentId").on("change", function(){
+			$("#projectId").val($(this).find("option:selected").attr("data-projectId"));
+		});
+		$("#parentId").trigger("change");
 	});
 	/*]]>*/
 	</script>

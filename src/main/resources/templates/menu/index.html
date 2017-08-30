@@ -91,19 +91,18 @@
 	}
 	
 	function operateFormatter(value, row, index) {
-		var spArray = ['<i class="action fa-edit modify" title="修改"></i>',
-		               '<i class="action fa-trash-o delete" title="删除"></i>']
+		var spArray = new Array();
+		spArray.push('<i class="action fa-edit modify" title="修改"></i>');
+		spArray.push('<i class="action fa-trash-o delete" title="删除"></i>');
         return "<span>"+ spArray.join('')+ "</span>";
     }
 	
 	var operateEvents = {
             'click .modify': function (e, value, row, index) {
-            	$("#table").bootstrapTable("check", index);
-            	modifyItem('table','/menu/edit/', '修改菜单');
+            	modifyItem('table','/menu/edit/', '修改菜单', index);
          },
             'click .delete': function (e, value, row, index) {
-            	$("#table").bootstrapTable("check", index);
-            	deleteItem('table', '/menu/delete/', '是否删除菜单');
+            	deleteItem('table', '/menu/delete/', '是否删除菜单', index);
          }
         };
 	/*]]>*/

@@ -8,13 +8,19 @@
 			<label class="col-sm-4 control-label" for="mobile">手机号</label>
 			<div class="col-sm-6">
 				<input type="hidden" id="id" name="id" th:field="*{id}"></input>
-				<input type="text" class="form-control required" id="mobile" name="mobile" th:field="*{mobile}" placeholder="请输入登录手机号"/>
+				<input type="text" class="form-control required" id="mobile" name="mobile" th:field="*{mobile}" placeholder="请输入登录手机号" th:readonly="*{!#strings.isEmpty(id)}"/>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-sm-4 control-label" for="nickName">昵称</label>
 			<div class="col-sm-6">
 				<input type="text" class="form-control required" id="nickName" name="nickName" th:field="*{nickName}" placeholder="请输入用户昵称"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label" for="password">密码</label>
+			<div class="col-sm-6">
+				<input type="password" class="form-control" th:classappend="*{#strings.isEmpty(id)}? 'required'" id="password" name="password" placeholder="请输入登录密码"/>
 			</div>
 		</div>
 		<div class="form-group">
@@ -34,15 +40,37 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-sm-4 control-label" for="tags">个性标签</label>
-			<div class="col-sm-6">
-				<input type="text" class="form-control" id="tags" name="tags" th:field="*{tags}"/>
+			<label class="col-sm-4 control-label" for="address">所在城市</label>
+			<div class="col-sm-3">
+				<select class="form-control selectpicker required" id="provinceId" name="provinceId">
+					<option th:each="area:${areas}" th:value="${area.id}" th:text="${area.areaName}"
+						th:selected="${!#strings.isEmpty(user.areaId) and #strings.startsWith(user.areaId, area.id)}">area</option>
+				</select>
+			</div>
+			<div class="col-sm-3">
+				<select class="form-control selectpicker required" id="areaId" name="areaId" th:attr="area=${user.areaId}">
+				</select>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-sm-4 control-label" for="address">详细地址</label>
 			<div class="col-sm-6">
 				<input type="text" class="form-control" id="address" name="address" th:field="*{address}"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label" for="roleIds">所属角色</label>
+			<div class="col-sm-6">
+				<select class="form-control selectpicker required" multiple="multiple" id="roleIds" name="roleIds">
+					<option th:each="role:${roles}" th:value="${role.id}" th:text="${role.name}"
+						th:selected="${!#lists.isEmpty(roleIds) and #lists.contains(roleIds, role.id)}">role</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label" for="tags">个性标签</label>
+			<div class="col-sm-6">
+				<input type="text" class="form-control tagsinput" id="tags" name="tags" th:field="*{tags}"/>
 			</div>
 		</div>
 		<div class="form-group">
@@ -69,7 +97,26 @@
 					}
 				});
 			}
-	   });
+	    });
+		$("#provinceId").on("change", function(){
+			var provinceId = $(this).val();
+			$.get("/area/city", {provinceId: provinceId}, function(result){
+				if (result.meta.code=="2000") {
+					var opt='';
+					var aId = $("#areaId").attr("area");
+					for(var i=0; i<result.data.length; i++) {
+						var item = result.data[i];
+						opt +='<option value="'+item.id+'"';
+						opt += (aId==item.id? ' selected="selected"': '')+'>'+item.areaName+'</option>';
+					}
+					$("#areaId").html(opt);
+					$('#areaId').selectpicker('refresh');
+				} else {
+					toastr.error(result.meta.message);
+				}
+			});
+		});
+		$("#provinceId").trigger("change");
 	});
 	/*]]>*/
 	</script>

@@ -56,7 +56,7 @@
 					} else {
 						$.ajax({
 							type : "get",
-							url : "/menu/tree",
+							url : "/menus",
 							async : false,
 							success : function(result){
 								var menusHtml = getMenuTree(result.data, 0);

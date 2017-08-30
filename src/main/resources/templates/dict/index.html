@@ -3,12 +3,12 @@
 	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
 	layout:decorator="fragments/layout">
 <head>
-   <title>LEMON后台管理系统 - 页面列表</title>
+   <title>LEMON后台管理系统 - 数据词典列表</title>
 </head>
 
 <body class="page-body skin-navy">
-	<!-- 右侧引导页面 -->
-	<div class="page-title" layout:fragment="navigation" th:include="fragments/resource::page-navigation (页面列表)">
+	<!-- 右侧引导数据词典 -->
+	<div class="page-title" layout:fragment="navigation" th:include="fragments/resource::page-navigation (数据词典列表)">
 		
 	</div>
 	
@@ -16,18 +16,11 @@
 	<div class="content" layout:fragment="content">
 	  <form class="form-inline panel-search" autocomplete="off">
 	  	<div class="form-group">
-	  		<label class="control-label" for="smenuId">所属菜单</label>
-	  		<select class="selectpicker form-control " id="smenuId" name="menuId">
-	  			<option value="">全部</option>
-				<option th:each="menu:${menus}" th:value="${menu.id}" th:text="${menu.name}">menu</option>
-			</select>
-		</div>
-		<div class="form-group">
-	  		<label class="control-label" for="scode">权限码</label>
-			<input type="text" class="form-control" id="scode" name="code"/>
+	  		<label class="control-label" for="stype">分类值</label>
+			<input type="text" class="form-control" id="stype" name="type"/>
 		</div>
 	  	<div class="form-group">
-	  		<label class="control-label" for="sname">页面名称</label>
+	  		<label class="control-label" for="sname">分类名称</label>
 			<input type="text" class="form-control" id="sname" name="name"/>
 		</div>
 		<div class="form-group">
@@ -56,19 +49,19 @@
 		</button>
 	</div>
 	<!-- 数据列表展示 hidden-->
-	<table id="table" data-toggle="table" data-toolbar="#btnlist" data-url='/page/pager' data-mobile-responsive="true" data-sort-name="sort" data-sort-order="desc" data-show-export="true">
+	<table id="table" data-toggle="table" data-toolbar="#btnlist" data-url='/dict/pager' data-mobile-responsive="true" data-sort-name="sort" data-sort-order="desc" data-show-export="true">
 		<thead>
 			<tr>
 				<th data-checkbox="true" class="hidden"></th>  <!-- class="hidden" -->
-				<th data-field="id" data-width="10%">编号</th>
-				<th data-field="icon" data-width="10%" data-align="center" data-formatter="iconFormatter">图标</th>
-				<th data-field="code" data-width="10%">权限码</th>
-				<th data-field="name" data-width="20%">页面名称</th>
-				<th data-field="url" data-width="20%">链接地址</th>
-				<th data-field="parentName" data-width="10%">所属菜单</th>
-				<th data-field="parentId" data-width="10%" data-visible="false">菜单ID</th>
-				<th data-field="sort" data-width="10%">排序</th>
-				<th data-field="operate" data-width="8%" data-align="center" data-formatter="operateFormatter" data-events="operateEvents">操作</th>
+				<th data-field="id" data-width="5%">编号</th>
+				<th data-field="type" data-width="10%">分类值 </th>
+				<th data-field="name" data-width="15%">分类名称</th>
+				<th data-field="parentId" data-width="5%" data-visible="false">上级分类ID</th>
+				<th data-field="parentName" data-width="10%">上级分类</th>
+				<th data-field="remark" data-width="10%">备注说明</th>
+				<th data-field="creator" data-width="5%" data-visible="false">创建人员</th>
+				<th data-field="createdDate" data-width="10%">创建时间</th>
+				<th data-field="operate" data-width="5%" data-align="center" data-formatter="operateFormatter" data-events="operateEvents">操作</th>
 			</tr>
 		</thead>
 	</table>
@@ -76,25 +69,21 @@
 	/*<![CDATA[*/
 	$(function(){
 		$("#btnlist").on("click",".append", function () { 
-			appendItem('/page/add', '添加页面');
+			appendItem('/dict/add', '添加数据');
 		});
 		$("#btnlist").on("click",".modify", function () { 
-			modifyItem('table','/page/edit/', '修改页面');
+			modifyItem('table','/dict/edit/', '修改数据');
 		});
 		$("#btnlist").on("click",".delete", function () { 
-			deleteItem('table', '/page/delete/', '是否删除页面');
+			deleteItem('table', '/dict/delete/', '是否删除数据');
 		});
 		$("#btnlist").on("click",".view", function () { 
-			viewItem('table', '/page/edit/', '页面详情');
+			viewItem('table', '/dict/edit/', '数据详情');
 		});
 		$("#search").on("click", function () {
 			$('#table').bootstrapTable('refresh');
 		});
 	});
-	
-	var iconFormatter = function(value, row, index){
-		return "<i class=\"fa "+ value +"\"></i>";
-	}
 	
 	function operateFormatter(value, row, index) {
 		var spArray = new Array();
@@ -105,10 +94,10 @@
 	
 	var operateEvents = {
             'click .modify': function (e, value, row, index) {
-            	modifyItem('table','/page/edit/', '修改页面', index);
+            	modifyItem('table','/dict/edit/', '修改数据', index);
          },
             'click .delete': function (e, value, row, index) {
-            	deleteItem('table', '/page/delete/', '是否删除页面', index);
+            	deleteItem('table', '/dict/delete/', '是否删除数据', index);
          }
         };
 	/*]]>*/

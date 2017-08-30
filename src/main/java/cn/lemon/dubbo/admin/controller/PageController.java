@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import cn.lemon.dubbo.admin.authc.RequestPermissions;
 import cn.lemon.dubbo.system.api.IMenuService;
 import cn.lemon.dubbo.system.dto.MenuDto;
 import cn.lemon.framework.core.BasicController;
@@ -31,20 +32,21 @@ import com.alibaba.dubbo.config.annotation.Reference;
  * @date 2017年8月23日 下午9:12:41 <br>
  * @author lonyee
  */
-@RequestMapping("page")
 @Controller
+@RequestMapping("page")
+@RequestPermissions({"admin_page"})
 public class PageController extends BasicController {
 	@Reference
 	private IMenuService menuService;
 	
-	@RequestMapping("/index")
+	@RequestMapping(value="/index", method={RequestMethod.GET})
 	public String Index(Model model) {
 		Long userId = this.getUserId();
 		model.addAttribute("menus", menuService.getList(userId, 0));
 		return "page/index";
 	}
 	
-	@RequestMapping("/add")
+	@RequestMapping(value="/add", method={RequestMethod.GET})
 	public String add(Model model) {
 		Long userId = this.getUserId();
 		model.addAttribute("menu", new MenuDto());
@@ -52,7 +54,7 @@ public class PageController extends BasicController {
 		return "page/edit";
 	}
 	
-	@RequestMapping("/edit/{id}")
+	@RequestMapping(value="/edit/{id}", method={RequestMethod.GET})
 	public String edit(Model model, @PathVariable("id") Integer id) {
 		Long userId = this.getUserId();
 		model.addAttribute("menu", menuService.getById(userId, id));
@@ -60,7 +62,7 @@ public class PageController extends BasicController {
 		return "page/edit";
 	}
 	
-	@RequestMapping("/view/{id}")
+	@RequestMapping(value="/view/{id}", method={RequestMethod.GET})
 	public String view(Model model, @PathVariable("id") Integer id) {
 		Long userId = this.getUserId();
 		model.addAttribute("menu", menuService.getById(userId, id));

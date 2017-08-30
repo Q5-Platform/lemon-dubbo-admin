@@ -35,6 +35,10 @@
 			<i class="fa-edit"></i>
 			<span>修改</span>
 		</button>
+		<button class="btn btn-default btn-icon authz">
+			<i class="fa-list-alt"></i>
+			<span>权限</span>
+		</button>
 		<button class="btn btn-default btn-icon delete">
 			<i class="fa-trash-o"></i>
 			<span>删除</span>
@@ -67,6 +71,9 @@
 		$("#btnlist").on("click",".modify", function () { 
 			modifyItem('table','/role/edit/', '修改角色');
 		});
+		$("#btnlist").on("click",".authz", function () { 
+			modifyItem('table','/role/authz/', '设置权限', null, 'size-wide');
+		});
 		$("#btnlist").on("click",".delete", function () { 
 			deleteItem('table', '/role/delete/', '是否删除角色');
 		});
@@ -79,24 +86,22 @@
 	});
 	
 	function operateFormatter(value, row, index) {
-		var spArray = ['<i class="action fa-edit modify" title="修改"></i>',
-		               '<i class="action fa-list-alt set" title="设置页面"></i>',
-		               '<i class="action fa-trash-o delete" title="删除"></i>']
+		var spArray = new Array();
+		spArray.push('<i class="action fa-edit modify" title="修改"></i>');
+		spArray.push('<i class="action fa-list-alt authz" title="设置权限"></i>');
+		spArray.push('<i class="action fa-trash-o delete" title="删除"></i>');
         return "<span>"+ spArray.join('')+ "</span>";
     }
 	
 	var operateEvents = {
             'click .modify': function (e, value, row, index) {
-            	$("#table").bootstrapTable("check", index);
-            	modifyItem('table','/role/edit/', '修改角色');
+            	modifyItem('table','/role/edit/', '修改角色', index);
          },
-	         'click .set': function (e, value, row, index) {
-	         	$("#table").bootstrapTable("check", index);
-	         	modifyItem('table','/role/edit/', '设置权限页面');
+	         'click .authz': function (e, value, row, index) {
+	         	modifyItem('table','/role/authz/', '设置权限', index, 'size-wide');
 	      },
             'click .delete': function (e, value, row, index) {
-            	$("#table").bootstrapTable("check", index);
-            	deleteItem('table', '/role/delete/', '是否删除角色');
+            	deleteItem('table', '/role/delete/', '是否删除角色', index);
          }
         };
 	/*]]>*/

@@ -15,12 +15,12 @@ import java.lang.annotation.Target;
 /**
  * 权限码校验
  * <p>
- * RequestPermissions({"menu:add","menu:mod"})
+ * RequestPermissions({"menu_add","menu_mod"})
  * </p>
  * @date 2017年8月25日 上午9:16:42 <br>
  * @author lonyee
  */
-@Target({ElementType.METHOD})
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface RequestPermissions {

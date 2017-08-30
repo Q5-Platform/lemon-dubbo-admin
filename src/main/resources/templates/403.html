@@ -6,7 +6,7 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
    <meta name="description" content="后台管理系统" />
    <meta name="author" content="lonyee" />
-   <title>LEMON后台管理系统 - 找不到访问的页面</title>
+   <title>LEMON后台管理系统 - 您没有该页面的访问权限</title>
    <div th:include="fragments/resource::stylesheet"></div>
 </head>
 <body class="page-body page-error-env page-light">
@@ -15,11 +15,11 @@
 			<i class="fa-warning"></i>
 		</div>
 		<h2>
-			Error 404
-			<small>抱歉，找不到访问的页面</small>
+			Error 403
+			<small>抱歉，您没有该页面的访问权限</small>
 		</h2>
 		
-		<p>您正在查找的资源(或者它的一个依赖项)可能已被移除，或其名称已更改，或暂时不可用。</p><p>请检查您访问的 URL 并确保其拼写正确。</p>
+		<p>您没有访问资源的权限，请联系管理员开通功能权限后再试。</p>
 		
 		<div style="margin-top: 30px;">
 		<a href="/index" th:href="@{/index}">
