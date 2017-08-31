@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import cn.lemon.dubbo.admin.authc.RequestPermissions;
 import cn.lemon.dubbo.system.api.IAreaService;
 import cn.lemon.dubbo.system.dto.AreaDto;
 import cn.lemon.framework.core.BasicController;
@@ -32,7 +31,6 @@ import com.alibaba.dubbo.config.annotation.Reference;
  */
 @Controller
 @RequestMapping("area")
-@RequestPermissions({"admin_area", "admin_user"})
 public class AreaController extends BasicController {
 	@Reference
 	private IAreaService areaService;
