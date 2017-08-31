@@ -24,6 +24,7 @@ import cn.lemon.framework.core.BasicController;
 import cn.lemon.framework.query.Page;
 import cn.lemon.framework.query.QueryPage;
 import cn.lemon.framework.response.ResultResponse;
+import cn.lemon.framework.response.ServiceException;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 
@@ -86,10 +87,10 @@ public class PageController extends BasicController {
 	@ApiOperation(value="添加或修改页面信息",notes="返回success")
 	@ResponseBody
 	@RequestMapping(value="/save", method={RequestMethod.POST})
-	public ResultResponse save(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, MenuDto menuDto) {
+	public ResultResponse save(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, MenuDto menuDto) throws ServiceException {
 		Long userId = this.getUserId();
+		menuDto.setIsLeaf(true);
 		if (menuDto.getId()==null || menuDto.getId()==0) {
-			menuDto.setIsLeaf(true);
 			menuService.save(userId, menuDto);
 		} else {
 			menuService.update(userId, menuDto);
@@ -100,7 +101,7 @@ public class PageController extends BasicController {
 	@ApiOperation(value="删除页面信息",notes="返回success")
 	@ResponseBody
 	@RequestMapping(value="/delete/{id}", method={RequestMethod.POST})
-	public ResultResponse delete(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, @PathVariable("id") Integer id) {
+	public ResultResponse delete(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, @PathVariable("id") Integer id) throws ServiceException {
 		Long userId = this.getUserId();
 		menuService.delete(userId, id);
 		return resultResponse.success();

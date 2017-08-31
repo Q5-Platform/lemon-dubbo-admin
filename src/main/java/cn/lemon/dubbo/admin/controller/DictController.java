@@ -76,7 +76,7 @@ public class DictController extends BasicController {
 	@ApiOperation(value="添加或修改词典信息",notes="返回success")
 	@ResponseBody
 	@RequestMapping(value="/save", method={RequestMethod.POST})
-	public ResultResponse save(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, DictDto dictDto) {
+	public ResultResponse save(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, DictDto dictDto) throws ServiceException {
 		Long userId = this.getUserId();
 		if (dictDto.getId()==null || dictDto.getId()==0) {
 			dictService.save(userId, dictDto);
