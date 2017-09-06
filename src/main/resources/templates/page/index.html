@@ -60,14 +60,13 @@
 		<thead>
 			<tr>
 				<th data-checkbox="true" class="hidden"></th>  <!-- class="hidden" -->
-				<th data-field="id" data-width="10%">编号</th>
-				<th data-field="icon" data-width="10%" data-align="center" data-formatter="iconFormatter">图标</th>
+				<th data-field="id" data-width="5%">编号</th>
 				<th data-field="code" data-width="10%">权限码</th>
-				<th data-field="name" data-width="20%">页面名称</th>
-				<th data-field="url" data-width="20%">链接地址</th>
+				<th data-field="name" data-width="12%">页面名称</th>
+				<th data-field="url" data-width="12%">链接地址</th>
 				<th data-field="parentName" data-width="10%">所属菜单</th>
 				<th data-field="parentId" data-width="10%" data-visible="false">菜单ID</th>
-				<th data-field="sort" data-width="10%">排序</th>
+				<th data-field="sort" data-width="8%">排序</th>
 				<th data-field="operate" data-width="8%" data-align="center" data-formatter="operateFormatter" data-events="operateEvents">操作</th>
 			</tr>
 		</thead>
@@ -92,14 +91,10 @@
 		});
 	});
 	
-	var iconFormatter = function(value, row, index){
-		return "<i class=\"fa "+ value +"\"></i>";
-	}
-	
 	function operateFormatter(value, row, index) {
 		var spArray = new Array();
-		spArray.push('<i class="action fa-edit modify" title="修改"></i>');
-		spArray.push('<i class="action fa-trash-o delete" title="删除"></i>');
+		spArray.push('<i class="action fa-edit modify" title="修改">修改</i>');
+		spArray.push('<i class="action fa-trash-o delete" title="删除">删除</i>');
         return "<span>"+ spArray.join('')+ "</span>";
     }
 	

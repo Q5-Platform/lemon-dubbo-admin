@@ -17,6 +17,12 @@
 				<input type="text" class="form-control required" id="name" name="name" th:field="*{name}" placeholder="请输入项目名称"/>
 			</div>
 		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label" for="name">授权时效</label>
+			<div class="col-sm-6">
+				<input type="number" min="0" max="2147483647" class="form-control required" id="accessValidity" name="accessValidity" th:field="*{accessValidity}" placeholder="授权访问的有效时间（秒）"/>
+			</div>
+		</div>
 	</form>
 	
 	<script th:inline="javascript">

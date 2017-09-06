@@ -68,14 +68,15 @@
 			<tr>
 				<th data-checkbox="true" class="hidden"></th>  <!-- class="hidden" -->
 				<th data-field="id" data-width="12%">编号</th>
-				<th data-field="headImageUrl" data-width="5%" data-formatter="headImageFormatter">头像</th>
+				<th data-field="headImageUrl" data-width="5%" data-align="center" data-formatter="headImageFormatter">头像</th>
 				<th data-field="mobile" data-width="10%">手机号码</th>
 				<th data-field="nickName" data-width="10%">昵称</th>
-				<th data-field="sex" data-width="5%" data-formatter="sexFormatter">性别</th>
+				<th data-field="sex" data-width="5%" data-align="center" data-formatter="sexFormatter">性别</th>
 				<th data-field="remark" data-width="10%">备注说明</th>
-				<th data-field="auditted" data-width="5%" data-formatter="audittedFormatter">实名认证</th>
+				<th data-field="auditted" data-width="5%" data-align="center" data-formatter="audittedFormatter">实名认证</th>
+				<th data-field="freezed" data-width="5%" data-align="center" data-formatter="freezedFormatter">用户状态</th>
 				<th data-field="createdDate" data-width="12%">注册时间</th>
-				<th data-field="operate" data-width="8%" data-align="center" data-formatter="operateFormatter" data-events="operateEvents">操作</th>
+				<th data-field="operate" data-width="15%" data-align="center" data-formatter="operateFormatter" data-events="operateEvents">操作</th>
 			</tr>
 		</thead>
 	</table>
@@ -100,21 +101,26 @@
 	});
 	
 	var audittedFormatter = function(value, row, index){
-		var span = "<span>未认证</span>";
+		var span = "<span class='color-defult'>未认证</span>";
 		switch(value) {
 		case '1':
-			span = "<span>待认证</span>";
+			span = "<span class='color-warn'>待认证</span>";
 			break;
 		case '5':
-			span = "<span>未通过</span>";
+			span = "<span class='color-error'>未通过</span>";
 			break;
 		case '9':
-			span = "<span>已认证</span>";
+			span = "<span class='color-success'>已认证</span>";
 			break;
 		default:
 			span = "<span>未认证</span>";
 			break;
 		}
+        return span;
+	}
+	
+	var freezedFormatter = function(value, row, index){
+		var span = value? "<span class='color-warn'>已冻结</span>": "<span class='color-success'>正常</span>";
         return span;
 	}
 	
@@ -140,12 +146,17 @@
 	
 	function operateFormatter(value, row, index) {
 		var spArray = new Array();
-		spArray.push('<i class="action fa-edit modify" title="修改"></i>');
+		spArray.push('<i class="action fa-edit modify" title="修改">修改</i>');
 		if (row.auditted!=9) {
-			spArray.push('<i class="action fa-shield audit" title="实名认证"></i>');
+			spArray.push('<i class="action fa-shield audit" title="实名认证">认证</i>');
 		}
-		spArray.push('<i class="action fa-trash-o delete" title="删除"></i>');
-        return "<span>"+ spArray.join('')+ "</span>";
+		if (!row.freezed) {
+			spArray.push('<i class="action fa-ban freezed" title="冻结账号">冻结</i>');
+		} else {
+			spArray.push('<i class="action fa-history-right unfreeze" title="解冻账号">解冻</i>');
+		}
+		spArray.push('<i class="action fa-trash-o delete" title="删除">删除</i>');
+        return "<span class='operate'>"+ spArray.join('')+ "</span>";
     }
 	
 	var operateEvents = {
@@ -155,6 +166,12 @@
              'click .audit': function (e, value, row, index) {
              	modifyItem('table','/user/audit/', '实名认证', index);
           },
+          	 'click .freezed': function (e, value, row, index) {
+          		decideItem('table', '/user/freezed/', '是否冻结账号【'+ row.mobile +'】', index);
+          },
+	       	 'click .unfreeze': function (e, value, row, index) {
+	       		decideItem('table', '/user/unfreeze/', '是否解冻账号【'+ row.mobile +'】', index);
+	       },
             'click .delete': function (e, value, row, index) {
             	deleteItem('table', '/user/delete/', '是否删除用户', index);
          }

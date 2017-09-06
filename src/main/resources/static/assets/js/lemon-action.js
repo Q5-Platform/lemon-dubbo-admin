@@ -293,10 +293,11 @@ function actionItem(url, title, size, buttons){
 }
 
 function getRowId(table, index) {
-	if (index!=null && index!='') {
+	if (index!=null && index>=0) {
 		$('#'+table).bootstrapTable("check", index);
 	}
 	var row = $('#'+table).bootstrapTable('getSelections');
+	console.log(row)
 	if (row && row.length>0){
 		return row[0].id;
 	}

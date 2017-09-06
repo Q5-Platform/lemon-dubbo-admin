@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.lemon.dubbo.account.api.IAuthenticationService;
 import cn.lemon.dubbo.account.api.IUserService;
-import cn.lemon.dubbo.account.dto.LoginUserDto;
+import cn.lemon.dubbo.account.dto.UserLoginedDto;
 import cn.lemon.dubbo.account.dto.UserDto;
 import cn.lemon.dubbo.admin.vo.UserVo;
 import cn.lemon.dubbo.system.api.IMenuService;
@@ -99,7 +99,7 @@ public class IndexController extends BasicController {
 	public ResultResponse login(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=false) String token, 
 			@ApiParam(value="手机号", required=true) @RequestParam(required=true) String mobile, 
 			@ApiParam(value="密码", required=true) @RequestParam(required=true) String password) throws ServiceException {
-		LoginUserDto user = authenticationService.login(token, mobile, password, "lemon-admin");
+		UserLoginedDto user = authenticationService.login(token, mobile, password, "lemon-admin");
 		CookieUtil.setCookie(request, response, TOKEN, user.getToken(), 2);
 		return resultResponse.success(user);
 	}

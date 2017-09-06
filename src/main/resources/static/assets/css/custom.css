@@ -186,10 +186,11 @@ form .form-group .form-control.error + span {
     float: left;
 }
 .bootstrap-table td>span>.action {
-	padding: 3px 8px;
+	padding: 3px 5px;
 	margin-top:-5px;
 	margin-bottom:-5px;
 	vertical-align: middle;
+	color: #025979;
 	cursor: pointer;
 }
 .card-views span>.action {

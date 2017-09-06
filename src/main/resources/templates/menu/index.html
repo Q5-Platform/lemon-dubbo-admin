@@ -56,13 +56,13 @@
 		<thead>
 			<tr>
 				<th data-checkbox="true" class="hidden"></th>  <!-- class="hidden" -->
-				<th data-field="id" data-width="10%">编号</th>
-				<th data-field="icon" data-width="10%" data-align="center" data-formatter="iconFormatter">图标</th>
-				<th data-field="name" data-width="20%">菜单名称</th>
-				<th data-field="projectName" data-width="20%">所属项目</th>
+				<th data-field="id" data-width="5%">编号</th>
+				<th data-field="icon" data-width="5%" data-align="center" data-formatter="iconFormatter">图标</th>
+				<th data-field="name" data-width="15%">菜单名称</th>
+				<th data-field="projectName" data-width="15%">所属项目</th>
 				<th data-field="projectId" data-width="10%" data-visible="false">项目ID</th>
-				<th data-field="sort" data-width="20%">排序</th>
-				<th data-field="operate" data-width="10%" data-align="center" data-formatter="operateFormatter" data-events="operateEvents">操作</th>
+				<th data-field="sort" data-width="10%">排序</th>
+				<th data-field="operate" data-width="8%" data-align="center" data-formatter="operateFormatter" data-events="operateEvents">操作</th>
 			</tr>
 		</thead>
 	</table>
@@ -92,8 +92,8 @@
 	
 	function operateFormatter(value, row, index) {
 		var spArray = new Array();
-		spArray.push('<i class="action fa-edit modify" title="修改"></i>');
-		spArray.push('<i class="action fa-trash-o delete" title="删除"></i>');
+		spArray.push('<i class="action fa-edit modify" title="修改">修改</i>');
+		spArray.push('<i class="action fa-trash-o delete" title="删除">删除</i>');
         return "<span>"+ spArray.join('')+ "</span>";
     }
 	

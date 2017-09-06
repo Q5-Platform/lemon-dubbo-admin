@@ -6,10 +6,11 @@
  */
 package cn.lemon.dubbo.admin.controller;
 
-import java.util.ArrayList;
-
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import cn.lemon.dubbo.account.api.IUserService;
 import cn.lemon.dubbo.account.dto.UserAudittedDto;
 import cn.lemon.dubbo.account.dto.UserDto;
+import cn.lemon.dubbo.account.dto.UserOnlineDto;
 import cn.lemon.dubbo.admin.authc.RequestPermissions;
 import cn.lemon.dubbo.system.api.IAreaService;
 import cn.lemon.dubbo.system.api.IRoleService;
@@ -50,8 +52,13 @@ public class UserController extends BasicController {
 	private IAreaService areaService;
 	
 	@RequestMapping(value="/index", method={RequestMethod.GET})
-	public String Index(Model model) {
+	public String index(Model model) {
 		return "user/index";
+	}
+	
+	@RequestMapping(value="/online", method={RequestMethod.GET})
+	public String online(Model model) {
+		return "user/online";
 	}
 	
 	@RequestMapping(value="/add", method={RequestMethod.GET})
@@ -91,7 +98,7 @@ public class UserController extends BasicController {
 		return "user/audit";
 	}
 		
-	@ApiOperation(value="查询用户分页信息",notes="返回分页数据")
+	@ApiOperation(value="查询用户信息",notes="返回分页数据")
 	@ResponseBody
 	@RequestMapping(value="/pager", method={RequestMethod.GET})
 	public ResultResponse pager(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, Long id, String mobile, String nickName, Integer auditted, QueryPage queryPage) {
@@ -102,6 +109,15 @@ public class UserController extends BasicController {
 		queryPage.setCondition("auditted", auditted);
 		Page page = userService.getListByPager(userId, queryPage);
 		return resultResponse.success(page);
+	}
+	
+	@ApiOperation(value="用户在线信息",notes="返回数据")
+	@ResponseBody
+	@RequestMapping(value="/online/pager", method={RequestMethod.GET})
+	public ResultResponse online(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, String mobile, String nickName, QueryPage queryPage) {
+		Long userId = this.getUserId();
+		List<UserOnlineDto> list = userService.getOnlineList(userId, mobile, nickName);
+		return resultResponse.success(list);
 	}
 	
 	@ApiOperation(value="添加或修改用户信息",notes="返回success")
@@ -135,4 +151,30 @@ public class UserController extends BasicController {
 		return resultResponse.success();
 	}
 	
+	@ApiOperation(value="冻结账号",notes="返回success")
+	@ResponseBody
+	@RequestMapping(value="/freezed/{id}", method={RequestMethod.POST})
+	public ResultResponse freezed(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, @PathVariable("id") Long id) {
+		Long userId = this.getUserId();
+		userService.freezed(userId, id);
+		return resultResponse.success();
+	}
+	
+	@ApiOperation(value="解冻账号",notes="返回success")
+	@ResponseBody
+	@RequestMapping(value="/unfreeze/{id}", method={RequestMethod.POST})
+	public ResultResponse unfreeze(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, @PathVariable("id") Long id) {
+		Long userId = this.getUserId();
+		userService.unfreeze(userId, id);
+		return resultResponse.success();
+	}
+	
+	@ApiOperation(value="在线用户强制踢出",notes="返回success")
+	@ResponseBody
+	@RequestMapping(value="/online/kill/{id}", method={RequestMethod.POST})
+	public ResultResponse online(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, @PathVariable String id) {
+		Long userId = this.getUserId();
+		userService.kill(userId, id);
+		return resultResponse.success();
+	}
 }

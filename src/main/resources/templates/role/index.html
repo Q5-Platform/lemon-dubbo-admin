@@ -54,10 +54,10 @@
 			<tr>
 				<th data-checkbox="true" class="hidden"></th>  <!-- class="hidden" -->
 				<th data-field="id" data-width="10%">编号</th>
-				<th data-field="name" data-width="20%">角色名称</th>
-				<th data-field="remark" data-width="20%">备注说明</th>
-				<th data-field="creator" data-width="20%">创建人员</th>
-				<th data-field="createdDate" data-width="20%">创建时间</th>
+				<th data-field="name" data-width="15%">角色名称</th>
+				<th data-field="remark" data-width="15%">备注说明</th>
+				<th data-field="creator" data-width="12%">创建人员</th>
+				<th data-field="createdDate" data-width="12%">创建时间</th>
 				<th data-field="operate" data-width="10%" data-align="center" data-formatter="operateFormatter" data-events="operateEvents">操作</th>
 			</tr>
 		</thead>
@@ -87,9 +87,9 @@
 	
 	function operateFormatter(value, row, index) {
 		var spArray = new Array();
-		spArray.push('<i class="action fa-edit modify" title="修改"></i>');
-		spArray.push('<i class="action fa-list-alt authz" title="设置权限"></i>');
-		spArray.push('<i class="action fa-trash-o delete" title="删除"></i>');
+		spArray.push('<i class="action fa-edit modify" title="修改">修改</i>');
+		spArray.push('<i class="action fa-list-alt authz" title="设置权限">权限</i>');
+		spArray.push('<i class="action fa-trash-o delete" title="删除">删除</i>');
         return "<span>"+ spArray.join('')+ "</span>";
     }
 	

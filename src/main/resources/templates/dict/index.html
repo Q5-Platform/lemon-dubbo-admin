@@ -59,9 +59,9 @@
 				<th data-field="parentId" data-width="5%" data-visible="false">上级分类ID</th>
 				<th data-field="parentName" data-width="10%">上级分类</th>
 				<th data-field="remark" data-width="10%">备注说明</th>
-				<th data-field="creator" data-width="5%" data-visible="false">创建人员</th>
+				<th data-field="creator" data-width="12%" data-visible="false">创建人员</th>
 				<th data-field="createdDate" data-width="10%">创建时间</th>
-				<th data-field="operate" data-width="5%" data-align="center" data-formatter="operateFormatter" data-events="operateEvents">操作</th>
+				<th data-field="operate" data-width="10%" data-align="center" data-formatter="operateFormatter" data-events="operateEvents">操作</th>
 			</tr>
 		</thead>
 	</table>
@@ -87,8 +87,8 @@
 	
 	function operateFormatter(value, row, index) {
 		var spArray = new Array();
-		spArray.push('<i class="action fa-edit modify" title="修改"></i>');
-		spArray.push('<i class="action fa-trash-o delete" title="删除"></i>');
+		spArray.push('<i class="action fa-edit modify" title="修改">修改</i>');
+		spArray.push('<i class="action fa-trash-o delete" title="删除">删除</i>');
         return "<span>"+ spArray.join('')+ "</span>";
     }
 	
