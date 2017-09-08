@@ -59,8 +59,7 @@
 				<th data-field="id" data-width="5%">编号</th>
 				<th data-field="icon" data-width="5%" data-align="center" data-formatter="iconFormatter">图标</th>
 				<th data-field="name" data-width="15%">菜单名称</th>
-				<th data-field="projectName" data-width="15%">所属项目</th>
-				<th data-field="projectId" data-width="10%" data-visible="false">项目ID</th>
+				<th data-field="projectId" data-width="15%" data-formatter="projectFormatter">所属项目</th>
 				<th data-field="sort" data-width="10%">排序</th>
 				<th data-field="operate" data-width="8%" data-align="center" data-formatter="operateFormatter" data-events="operateEvents">操作</th>
 			</tr>
@@ -88,6 +87,14 @@
 	
 	var iconFormatter = function(value, row, index){
 		return "<i class=\"fa "+ value +"\"></i>";
+	}
+	
+	var projectFormatter = function(value, row, index){
+		var $option = $("#sprojectId option[value='"+ value +"']");
+		if (!value || $option.length==0) {
+			return "<span>"+ value +"</span>";
+		}
+		return "<span>"+ $option.text() +"</span>";
 	}
 	
 	function operateFormatter(value, row, index) {

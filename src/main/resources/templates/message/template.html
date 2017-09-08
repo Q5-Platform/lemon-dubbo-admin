@@ -3,33 +3,35 @@
 	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
 	layout:decorator="fragments/layout">
 <head>
-   <title>LEMON后台管理系统 - 数据词典列表</title>
+   <title>LEMON后台管理系统 - 消息模板列表</title>
 </head>
 
 <body class="page-body skin-navy">
-	<!-- 右侧引导数据词典 -->
-	<div class="page-title" layout:fragment="navigation" th:include="fragments/resource::page-navigation (数据词典列表)">
+	<!-- 右侧引导消息模板 -->
+	<div class="page-title" layout:fragment="navigation" th:include="fragments/resource::page-navigation (消息模板列表)">
 		
 	</div>
 	
 	<!-- 具体页面内容 -->
 	<div class="content" layout:fragment="content">
 	  <form class="form-inline panel-search" autocomplete="off">
-	  	<div class="form-group">
-	  		<label class="control-label" for="sparentId">所属类别</label>
-	  		<select class="selectpicker form-control " id="sparentId" name="parentId">
-	  			<option value="">全部</option>
-				<option th:each="dict: ${dicts}" th:value="${dict.id}" th:text="${dict.name}">dict</option>
-				<option value="0">基础分类</option>
+		<div class="form-group">
+	  		<label class="control-label" for="smessageType">消息类型</label>
+			<select class="form-control selectpicker required" id="smessageType" name="messageType">
+				<option value="">全部</option>
+				<option th:each="messageType: ${messageTypes}" th:value="${messageType.type}" th:text="${messageType.name}">messageType</option>
+			</select>
+		</div>
+		<div class="form-group">
+	  		<label class="control-label" for="spushMethod">推送方式</label>
+			<select class="form-control selectpicker required" id="spushMethod" name="pushMethod">
+				<option value="">全部</option>
+				<option th:each="pushMethod: ${pushMethods}" th:value="${pushMethod.type}" th:text="${pushMethod.name}">pushMethod</option>
 			</select>
 		</div>
 	  	<div class="form-group">
-	  		<label class="control-label" for="stype">分类值</label>
-			<input type="text" class="form-control" id="stype" name="type"/>
-		</div>
-	  	<div class="form-group">
-	  		<label class="control-label" for="sname">分类名称</label>
-			<input type="text" class="form-control" id="sname" name="name"/>
+	  		<label class="control-label" for="skeyword">关键词</label>
+			<input type="text" class="form-control" id="skeyword" name="keyword"/>
 		</div>
 		<div class="form-group">
 			<button id="search" type="button" class="btn btn-info btn-single btn-icon">
@@ -57,15 +59,17 @@
 		</button>
 	</div>
 	<!-- 数据列表展示 hidden-->
-	<table id="table" data-toggle="table" data-toolbar="#btnlist" data-url='/dict/pager' data-mobile-responsive="true" data-sort-name="sort" data-sort-order="desc" data-show-export="true">
+	<table id="table" data-toggle="table" data-toolbar="#btnlist" data-url='/message/template/pager' data-mobile-responsive="true" data-sort-name="sort" data-sort-order="desc" data-show-export="true">
 		<thead>
 			<tr>
 				<th data-checkbox="true" class="hidden"></th>  <!-- class="hidden" -->
-				<th data-field="id" data-width="5%">编号</th>
-				<th data-field="type" data-width="10%">分类值 </th>
-				<th data-field="name" data-width="15%">分类名称</th>
-				<th data-field="parentId" data-width="10%" data-formatter="parentFormatter">上级分类</th>
-				<th data-field="remark" data-width="10%">备注说明</th>
+				<th data-field="id" data-width="10%">编号</th>
+				<th data-field="title" data-width="12%">消息类型</th>
+				<th data-field="messageType" data-width="5%" data-visible="false">消息类型ID</th>
+				<th data-field="pushMethod" data-width="5%" data-align="center" data-formatter="pushMethodFormatter">推送方式 </th>
+				<th data-field="url" data-width="10%">访问地址</th>
+				<th data-field="template" data-width="10%" data-visible="false">模板内容</th>
+				<th data-field="centerId" data-width="12%" data-visible="false">第三方模板ID</th>
 				<th data-field="creator" data-width="12%" data-visible="false">创建人员</th>
 				<th data-field="createdDate" data-width="10%">创建时间</th>
 				<th data-field="operate" data-width="10%" data-align="center" data-formatter="operateFormatter" data-events="operateEvents">操作</th>
@@ -76,24 +80,24 @@
 	/*<![CDATA[*/
 	$(function(){
 		$("#btnlist").on("click",".append", function () { 
-			appendItem('/dict/add', '添加数据');
+			appendItem('/message/template/add', '添加消息模板', 'size-wide');
 		});
 		$("#btnlist").on("click",".modify", function () { 
-			modifyItem('table','/dict/edit/', '修改数据');
+			modifyItem('table','/message/template/edit/', '修改消息模板', null, 'size-wide');
 		});
 		$("#btnlist").on("click",".delete", function () { 
-			deleteItem('table', '/dict/delete/', '是否删除数据');
+			deleteItem('table', '/message/template/delete/', '是否删除消息模板');
 		});
 		$("#btnlist").on("click",".view", function () { 
-			viewItem('table', '/dict/edit/', '数据详情');
+			viewItem('table', '/message/template/view/', '消息模板详情', null, 'size-wide');
 		});
 		$("#search").on("click", function () {
 			$('#table').bootstrapTable('refresh');
 		});
 	});
 	
-	var parentFormatter = function(value, row, index){
-		var $option = $("#sparentId option[value='"+ value +"']");
+	var pushMethodFormatter = function(value, row, index){
+		var $option = $("#spushMethod option[value='"+ value +"']");
 		if (!value || $option.length==0) {
 			return "<span>"+ value +"</span>";
 		}
@@ -109,11 +113,11 @@
 	
 	var operateEvents = {
             'click .modify': function (e, value, row, index) {
-            	modifyItem('table','/dict/edit/', '修改数据', index);
-         },
+            	modifyItem('table','/message/template/edit/', '修改消息模板', index, 'size-wide');
+        	},
             'click .delete': function (e, value, row, index) {
-            	deleteItem('table', '/dict/delete/', '是否删除数据', index);
-         }
+            	deleteItem('table', '/message/template/delete/', '是否删除消息模板', index);
+        	}
         };
 	/*]]>*/
 	</script>

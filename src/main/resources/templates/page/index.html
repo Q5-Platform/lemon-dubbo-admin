@@ -64,8 +64,7 @@
 				<th data-field="code" data-width="10%">权限码</th>
 				<th data-field="name" data-width="12%">页面名称</th>
 				<th data-field="url" data-width="12%">链接地址</th>
-				<th data-field="parentName" data-width="10%">所属菜单</th>
-				<th data-field="parentId" data-width="10%" data-visible="false">菜单ID</th>
+				<th data-field="parentId" data-width="10%" data-formatter="parentFormatter" >所属菜单</th>
 				<th data-field="sort" data-width="8%">排序</th>
 				<th data-field="operate" data-width="8%" data-align="center" data-formatter="operateFormatter" data-events="operateEvents">操作</th>
 			</tr>
@@ -90,6 +89,14 @@
 			$('#table').bootstrapTable('refresh');
 		});
 	});
+	
+	var parentFormatter = function(value, row, index){		
+		var $option = $("#smenuId option[value='"+ value +"']");
+		if (!value || $option.length==0) {
+			return "<span>"+ value +"</span>";
+		}
+		return "<span>"+ $option.text() +"</span>";
+	}
 	
 	function operateFormatter(value, row, index) {
 		var spArray = new Array();

@@ -249,7 +249,13 @@ label input[type="checkbox"] {
 .color-unkown {
 	color: #666666;
 }
-
+.json-check {
+	cursor: pointer;
+}
+.json-check, .json-tip {
+	line-height: 1;
+	padding-top: 0px !important;
+}
 /* table 选中悬停显示背景色
  .table-hover > tbody > tr:hover > td, .table-hover > tbody > tr:hover > th {
 	 background-color: #FBF5E5;

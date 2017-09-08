@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+	<!-- 表单页面 -->
+	<!-- <div class="panel"> -->
+	<form role="form" id="templateForm" class="validate form-horizontal" autocomplete="off" th:object="${messageTemplate}">
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="messageType">消息类型</label>
+			<div class="col-sm-4">
+				<input type="hidden" id="id" name="id" th:field="*{id}"></input>
+				<input type="hidden" class="required" id="title" name="title"  th:field="*{title}"/>
+				<select class="form-control selectpicker required" id="messageType" name="messageType" th:field="*{messageType}">
+					<option th:each="messageType: ${messageTypes}" th:value="${messageType.type}" th:text="${messageType.name}">messageType</option>
+				</select>
+			</div>
+			<label class="col-sm-2 control-label" for="pushMethod">推送方式</label>
+			<div class="col-sm-3">
+				<select class="form-control selectpicker required" id="pushMethod" name="pushMethod" th:field="*{pushMethod}">
+					<option th:each="pushMethod: ${pushMethods}" th:value="${pushMethod.type}" th:text="${pushMethod.name}">pushMethod</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="url">访问地址</label>
+			<div class="col-sm-4">
+				<input type="text" class="form-control required" id="url" name="url" th:field="*{url}" placeholder="可为相对路径"/>
+			</div>
+			<label class="col-sm-2 control-label" for="centerId">第三方模板ID</label>
+			<div class="col-sm-3">
+				<input type="text" class="form-control" id="centerId" name="centerId" th:field="*{centerId}"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="template">模板内容</label>
+			<div class="col-sm-9">
+				<textarea class="form-control required" rows="15" id="template" name="template" th:field="*{template}" placeholder="请输入消息模板内容"></textarea>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-9 control-label json-tip"></label>
+			<label class="col-sm-2 fa-retweet control-label json-check">JSON格式校验</label>
+		</div>
+	</form>
+	
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	$(document).ready(function(){
+		init_module();
+		$("#templateForm").validate({
+			submitHandler:function(form){
+				$.post("/message/template/save", $(form).serialize(), function(result){
+					if (result.meta.code=="2000") {
+						toastr.success(result.meta.message);
+						BootstrapDialog.close(form);
+			        	$("#table").bootstrapTable("refresh");
+					} else {
+						toastr.error(result.meta.message);
+					}
+				});
+			}
+	    });
+		$(".json-check").on("click", function(){
+			var tips;
+			try {
+				var template = $("#template").val();
+                var obj=JSON.parse(template);
+    			tips = "<span class='color-success'>模板内容是标准JSON格式</span>";
+            } catch(e) {
+            	tips = "<span class='color-error'>模板内容不是标准JSON格式["+ e +"]</span>";
+            }
+            $(".json-tip").html(tips);
+		})
+		$("#messageType").on("change", function(){
+			$("#title").val($(this).find("option:selected").text());
+		});
+		$("#messageType").trigger("change");		
+	});
+	/*]]>*/
+	</script>
+</html>

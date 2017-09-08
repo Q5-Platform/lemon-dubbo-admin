@@ -34,7 +34,9 @@ public class DictController extends BasicController {
 	private IDictService dictService;
 	
 	@RequestMapping(value="/index", method={RequestMethod.GET})
-	public String Index() {
+	public String Index(Model model) {
+		Long userId = this.getUserId();
+		model.addAttribute("dicts", dictService.getList(userId, 0));
 		return "dict/index";
 	}
 	
@@ -65,8 +67,9 @@ public class DictController extends BasicController {
 	@ApiOperation(value="查询词典分页信息",notes="返回分页数据")
 	@ResponseBody
 	@RequestMapping(value="/pager", method={RequestMethod.GET})
-	public ResultResponse pager(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, String type, String name, QueryPage queryPage) {
+	public ResultResponse pager(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, Integer parentId, String type, String name, QueryPage queryPage) {
 		Long userId = this.getUserId();
+		queryPage.setCondition("parentId", parentId);
 		queryPage.setCondition("type", type);
 		queryPage.setCondition("name", name);
 		Page page = dictService.getListByPager(userId, queryPage);
