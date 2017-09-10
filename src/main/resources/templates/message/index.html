@@ -3,12 +3,12 @@
 	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
 	layout:decorator="fragments/layout">
 <head>
-   <title>LEMON后台管理系统 - 消息模板列表</title>
+   <title>LEMON后台管理系统 - 消息列表</title>
 </head>
 
 <body class="page-body skin-navy">
-	<!-- 右侧引导消息模板 -->
-	<div class="page-title" layout:fragment="navigation" th:include="fragments/resource::page-navigation (消息模板列表)">
+	<!-- 右侧引导消息 -->
+	<div class="page-title" layout:fragment="navigation" th:include="fragments/resource::page-navigation (消息列表)">
 		
 	</div>
 	
@@ -34,13 +34,9 @@
 		</div>
 	  </form>
 	  <div id="btnlist" class="btn-group btn-group-sm btn-tool">
-		<button class="btn btn-default btn-icon append">
-			<i class="fa-plus"></i>
-			<span>添加</span>
-		</button>
-		<button class="btn btn-default btn-icon modify">
-			<i class="fa-edit"></i>
-			<span>修改</span>
+		<button class="btn btn-default btn-icon send">
+			<i class="fa-mail-forward"></i>
+			<span>发送消息</span>
 		</button>
 		<button class="btn btn-default btn-icon delete">
 			<i class="fa-trash-o"></i>
@@ -52,21 +48,21 @@
 		</button>
 	</div>
 	<!-- 数据列表展示 hidden-->
-	<table id="table" data-toggle="table" data-toolbar="#btnlist" data-url='/message/template/pager' data-mobile-responsive="true" data-sort-name="sort" data-sort-order="desc" data-show-export="true">
+	<table id="table" data-toggle="table" data-toolbar="#btnlist" data-url='/message/pager' data-mobile-responsive="true" data-sort-name="sort" data-sort-order="desc" data-show-export="true">
 		<thead>
 			<tr>
 				<th data-checkbox="true" class="hidden"></th>  <!-- class="hidden" -->
-				<th data-field="id" data-width="10%">编号</th>
-				<th data-field="templateId" data-width="10%" data-visible="false">消息模板ID</th>
-				<th data-field="message" data-width="12%">消息类型</th>
+				<th data-field="id" data-width="8%">编号</th>
 				<th data-field="pushMethod" data-width="5%" data-align="center" data-formatter="pushMethodFormatter">推送方式 </th>
-				<th data-field="sendTo" data-width="10%">接收方</th>
-				<th data-field="userId" data-width="10%">接收人员ID</th>
+				<th data-field="title" data-width="10%" data-formatter="messageFormatter">标题</th>
+				<th data-field="receiver" data-width="12%">接收方</th>
+				<th data-field="receiverId" data-width="10%">接收人员ID</th>
 				<th data-field="url" data-width="10%">访问地址</th>
-				<th data-field="scheduleTime" data-width="10%">预约时间</th>
-				<th data-field="sendTimes" data-width="12%" data-visible="false">发送次数</th>
+				<th data-field="scheduleTime" data-width="12%">预约时间</th>
+				<th data-field="sendTimes" data-width="8%" data-align="center" data-formatter="sendTimesFormatter">状态</th>
+				<th data-field="templateId" data-width="12%" data-visible="false">模板ID</th>
 				<th data-field="creator" data-width="12%" data-visible="false">创建人员</th>
-				<th data-field="createdDate" data-width="10%">创建时间</th>
+				<th data-field="createdDate" data-width="12%" data-visible="false">创建时间</th>
 				<th data-field="operate" data-width="10%" data-align="center" data-formatter="operateFormatter" data-events="operateEvents">操作</th>
 			</tr>
 		</thead>
@@ -74,17 +70,14 @@
 	<script th:inline="javascript">
 	/*<![CDATA[*/
 	$(function(){
-		$("#btnlist").on("click",".append", function () { 
-			appendItem('/message/template/add', '添加消息模板', 'size-wide');
-		});
-		$("#btnlist").on("click",".modify", function () { 
-			modifyItem('table','/message/template/edit/', '修改消息模板', null, 'size-wide');
+		$("#btnlist").on("click",".send", function () { 
+			appendItem('/message/send', '发送消息', 'size-wide');
 		});
 		$("#btnlist").on("click",".delete", function () { 
-			deleteItem('table', '/message/template/delete/', '是否删除消息模板');
+			deleteItem('table', '/message/delete/', '是否删除消息');
 		});
 		$("#btnlist").on("click",".view", function () { 
-			viewItem('table', '/message/template/view/', '消息模板详情', null, 'size-wide');
+			viewItem('table', '/message/view/', '消息详情');
 		});
 		$("#search").on("click", function () {
 			$('#table').bootstrapTable('refresh');
@@ -99,19 +92,33 @@
 		return "<span>"+ $option.text() +"</span>";
 	}
 	
+	var messageFormatter = function(value, row, index){
+		return "<span title='"+ row.message +"'>"+ value +"</span>";
+	}
+	
+	var sendTimesFormatter = function(value, row, index){
+		var times="";
+		if (value==0) {
+			times = "<span class='color-defult'>待发送</span>";
+		} else if (value>=1 && value<=3) {
+			times = "<span class='color-error'>发送失败["+ value +"]</span>";
+		} else if (value==9) {
+			times = "<span class='color-success'>发送成功</span>";
+		} else {
+			times = value;
+		}
+		return times;
+	}
+	
 	function operateFormatter(value, row, index) {
 		var spArray = new Array();
-		spArray.push('<i class="action fa-edit modify" title="修改">修改</i>');
 		spArray.push('<i class="action fa-trash-o delete" title="删除">删除</i>');
         return "<span>"+ spArray.join('')+ "</span>";
     }
 	
 	var operateEvents = {
-            'click .modify': function (e, value, row, index) {
-            	modifyItem('table','/message/template/edit/', '修改消息模板', index, 'size-wide');
-        	},
             'click .delete': function (e, value, row, index) {
-            	deleteItem('table', '/message/template/delete/', '是否删除消息模板', index);
+            	deleteItem('table', '/message/delete/', '是否删除消息', index);
         	}
         };
 	/*]]>*/

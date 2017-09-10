@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+	<!-- 表单页面 -->
+	<!-- <div class="panel"> -->
+	<form role="form" id="messageForm" class="validate form-horizontal" autocomplete="off">
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="messageType">消息类型</label>
+			<div class="col-sm-3">
+				<select class="form-control selectpicker required" id="messageType" name="messageType">
+					<option th:each="messageType: ${messageTypes}" th:value="${messageType.type}" th:text="${messageType.name}">messageType</option>
+				</select>
+			</div>
+			<label class="col-sm-2 control-label" for="receiverId">接收人员ID</label>
+			<div class="col-sm-4">
+				<input type="text" class="form-control" id="receiverId" name="receiverId" placeholder="接收人员和接收人员ID必填一项"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="scheduleTime">预约时间</label>
+			<div class="col-sm-3">
+				<input type="text" class="form-control datepicker" data-format="yyyy-MM-dd" id="scheduleTime" name="scheduleTime"/>
+			</div>
+			<label class="col-sm-2 control-label" for="receiver">接收人员</label>
+			<div class="col-sm-4">
+				<input type="text" class="form-control" id="receiver" name="receiver" placeholder="mobile/email/openid/routingkey等"/>
+			</div>
+		</div>
+	</form>
+	
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	$(document).ready(function(){
+		init_module();
+		$("#messageForm").validate({
+			submitHandler:function(form){
+				$.post("/message/send", $(form).serialize(), function(result){
+					if (result.meta.code=="2000") {
+						toastr.success(result.meta.message);
+						BootstrapDialog.close(form);
+			        	$("#table").bootstrapTable("refresh");
+					} else {
+						toastr.error(result.meta.message);
+					}
+				});
+			}
+	    });
+		$("#messageType").on("change", function(){
+			$.get("/message/params", {messageType: $(this).val()}, function(result) {
+				if (result.meta.code=="2000") {
+					$(".params").remove();
+					var item = "";
+					for(var i=0; i<result.data.length; i++) {
+						item += (i%2==0? '<div class="form-group params">': '')+
+							'<label class="col-sm-2 control-label" for="'+result.data[i]+'">'+result.data[i]+'</label>' +
+							'<div class="col-sm-'+ (i%2==0? '3': '4') +'">' +
+							'	<input type="text" class="form-control required" id="'+result.data[i]+'" name="'+result.data[i]+'" placeholder="请输入参数值['+result.data[i]+']"/>'+
+							'</div>'+ (i%2==0? '': '</div>');
+					}
+					$("#messageForm").append(item);
+				} else {
+					toastr.error(result.meta.message);
+				}
+			});
+		});
+		$("#messageType").trigger("change");
+	});
+	/*]]>*/
+	</script>
+</html>
