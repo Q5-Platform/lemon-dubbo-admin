@@ -3,11 +3,13 @@ package cn.lemon.dubbo.admin.controller;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -43,7 +45,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
  */
 @Controller
 @RequestMapping("/message")
-@RequestPermissions({"admin_message"})
+@RequestPermissions({"admin_msg"})
 public class MessageController extends BasicController {
 	@Reference
 	private IDictService dictService;
@@ -72,8 +74,8 @@ public class MessageController extends BasicController {
 	public String view(Model model, @PathVariable("id") Long id) {
 		Long userId = this.getUserId();
 		model.addAttribute("messageRecord", messageRecordService.getById(userId, id));
-		model.addAttribute("messageTypes", dictService.getList(userId, "MessageType"));
-		return "message/edit";
+		model.addAttribute("pushMethods", dictService.getList(userId, "pushMethod"));
+		return "message/view";
 	}
 	
 	@ApiOperation(value="查询消息分页",notes="返回分页数据")
@@ -95,7 +97,7 @@ public class MessageController extends BasicController {
 	public ResultResponse send(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, String messageType) throws ServiceException {
 		Long userId = this.getUserId();
 		List<MessageTemplateDto> listDto = messageTemplateService.getListByMessageType(userId, messageType);
-		List<String> list = new ArrayList<String>(10);
+		Set<String> list = new HashSet<String>(10);
 		for (MessageTemplateDto messageTemplateDto: listDto) {
 			Pattern pattern = Pattern.compile("(?<=\\$\\{)(.+?)(?=\\})");
 			Matcher matcher = pattern.matcher(messageTemplateDto.getTitle() + messageTemplateDto.getTemplate());
@@ -113,7 +115,7 @@ public class MessageController extends BasicController {
 	@ApiOperation(value="发送信息",notes="返回success")
 	@ResponseBody
 	@RequestMapping(value="/send", method={RequestMethod.POST})
-	public ResultResponse send(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, String messageType, String receiver, Long receiverId, Date scheduleTime, @RequestParam Map<String, String> params) throws ServiceException {
+	public ResultResponse send(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, String messageType, String receiver, Long receiverId, Timestamp scheduleTime, @RequestParam Map<String, String> params) throws ServiceException {
 		Long userId = this.getUserId();
 		messageService.sendMessage(userId, messageType, receiver, receiverId, scheduleTime, params);
 		return resultResponse.success();

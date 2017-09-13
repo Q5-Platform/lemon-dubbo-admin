@@ -18,8 +18,10 @@
 		</div>
 		<div class="form-group">
 			<label class="col-sm-2 control-label" for="scheduleTime">预约时间</label>
-			<div class="col-sm-3">
-				<input type="text" class="form-control datepicker" data-format="yyyy-MM-dd" id="scheduleTime" name="scheduleTime"/>
+			<div class="col-sm-3 date-and-time">
+				<input type="hidden" id="scheduleTime" name="scheduleTime"/>
+				<input type="text" class="form-control datepicker" id="sdate" data-start-date="0d" data-format="yyyy-MM-dd"/>
+				<input type="text" class="form-control timepicker" id="stime" data-template="dropdown" data-default-time="00:01" data-show-meridian="false" data-minute-step="5"/>
 			</div>
 			<label class="col-sm-2 control-label" for="receiver">接收人员</label>
 			<div class="col-sm-4">
@@ -32,8 +34,20 @@
 	/*<![CDATA[*/
 	$(document).ready(function(){
 		init_module();
+		$("#stime").val("");
 		$("#messageForm").validate({
 			submitHandler:function(form){
+				$("#receiverId").removeClass("error");
+				if (!$("#receiverId").val()&&!$("#receiver").val()) {
+					$("#receiverId").addClass("error");
+					return;
+				}
+				var date = $("#sdate").val();
+				$("#scheduleTime").val("");
+				if (date) {
+					var time = $("#stime").val();
+					$("#scheduleTime").val(date+" "+(time? time+":00": "00:00:00"));
+				}
 				$.post("/message/send", $(form).serialize(), function(result){
 					if (result.meta.code=="2000") {
 						toastr.success(result.meta.message);

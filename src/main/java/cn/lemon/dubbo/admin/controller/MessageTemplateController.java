@@ -29,7 +29,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
  */
 @Controller
 @RequestMapping("/message/template")
-@RequestPermissions({"admin_message_template"})
+@RequestPermissions({"admin_msg_template"})
 public class MessageTemplateController extends BasicController {
 	@Reference
 	private IDictService dictService;
