@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -15,7 +17,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import cn.lemon.dubbo.admin.authc.AuthenticationIntercept;
 import cn.lemon.dubbo.admin.authc.PermissionIntercept;
 import cn.lemon.framework.utils.JsonMapper;
+import cn.lemon.framework.xss.XssFilter;
 
+@Component
 @Configuration
 @AutoConfigureAfter({ DubboConfiguration.class })  
 public class SpringConfiguration extends WebMvcConfigurerAdapter{
@@ -44,6 +48,15 @@ public class SpringConfiguration extends WebMvcConfigurerAdapter{
 	public PermissionIntercept permissionIntercept() {
 	    return new PermissionIntercept();
 	}
+	
+	/** 加入xss过滤 **/
+	@Bean
+    public FilterRegistrationBean filterRegistrationBean() {
+        FilterRegistrationBean registrationBean = new FilterRegistrationBean();
+        registrationBean.setFilter(new XssFilter());
+        registrationBean.addUrlPatterns("/*");
+        return registrationBean;
+    }
 	
 	/**加入拦截器 */
     @Override
