@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="fragments/layout">
+<head>
+   <title>LEMON后台管理系统 - 文章列表</title>
+</head>
+
+<body class="page-body skin-navy">
+	<!-- 右侧引导文章 -->
+	<div class="page-title" layout:fragment="navigation" th:include="fragments/resource::page-navigation (文章列表)">
+		
+	</div>
+	
+	<!-- 具体文章内容 -->
+	<div class="content" layout:fragment="content">
+	  <form class="form-inline panel-search" autocomplete="off">
+	  	<div class="form-group">
+	  		<label class="control-label" for="smenuId">所属类别</label>
+	  		<select class="selectpicker form-control " id="sarticleType" name="articleType">
+	  			<option value="">全部</option>
+				<option th:each="articleType:${articleTypes}" th:value="${articleType.type}" th:text="${articleType.name}">article</option>
+			</select>
+		</div>
+	  	<div class="form-group">
+	  		<label class="control-label" for="skeyword">关键词</label>
+			<input type="text" class="form-control" id="skeyword" name="keyword"/>
+		</div>
+		<div class="form-group">
+			<button id="search" type="button" class="btn btn-info btn-single btn-icon">
+				<i class="fa-search"></i>
+				<span>查询</span>
+			</button>
+		</div>
+	  </form>
+	  <div id="btnlist" class="btn-group btn-group-sm btn-tool">
+		<button class="btn btn-default btn-icon append">
+			<i class="fa-plus"></i>
+			<span>添加</span>
+		</button>
+		<button class="btn btn-default btn-icon modify">
+			<i class="fa-edit"></i>
+			<span>修改</span>
+		</button>
+		<button class="btn btn-default btn-icon delete">
+			<i class="fa-trash-o"></i>
+			<span>删除</span>
+		</button>
+		<button class="btn btn-default btn-icon view">
+			<i class="fa-file-text-o"></i>
+			<span>详情</span>
+		</button>
+	</div>
+	<!-- 数据列表展示 hidden-->
+	<table id="table" data-toggle="table" data-toolbar="#btnlist" data-url='/article/pager' data-mobile-responsive="true" data-sort-name="sort" data-sort-order="desc" data-show-export="true">
+		<thead>
+			<tr>
+				<th data-checkbox="true" class="hidden"></th>  <!-- class="hidden" -->
+				<th data-field="id" data-width="5%">编号</th>
+				<th data-field="title" data-width="12%">文章标题</th>
+				<th data-field="url" data-width="12%">链接地址</th>
+				<th data-field="parentId" data-width="10%" data-formatter="parentFormatter" >所属类别</th>
+				<th data-field="sort" data-width="8%">排序</th>
+				<th data-field="operate" data-width="8%" data-align="center" data-formatter="operateFormatter" data-events="operateEvents">操作</th>
+			</tr>
+		</thead>
+	</table>
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	$(function(){
+		$("#btnlist").on("click",".append", function () { 
+			appendItem('/article/add', '添加文章', 'size-wide');
+		});
+		$("#btnlist").on("click",".modify", function () { 
+			modifyItem('table','/article/edit/', '修改文章', null, 'size-wide');
+		});
+		$("#btnlist").on("click",".delete", function () { 
+			deleteItem('table', '/article/delete/', '是否删除文章');
+		});
+		$("#btnlist").on("click",".view", function () { 
+			viewItem('table', '/article/view/', '文章详情', null, 'size-wide');
+		});
+		$("#search").on("click", function () {
+			$('#table').bootstrapTable('refresh');
+		});
+	});
+	
+	var parentFormatter = function(value, row, index){		
+		var $option = $("#smenuId option[value='"+ value +"']");
+		if (!value || $option.length==0) {
+			return "<span>"+ value +"</span>";
+		}
+		return "<span>"+ $option.text() +"</span>";
+	}
+	
+	function operateFormatter(value, row, index) {
+		var spArray = new Array();
+		spArray.push('<i class="action fa-edit modify" title="修改">修改</i>');
+		spArray.push('<i class="action fa-trash-o delete" title="删除">删除</i>');
+        return "<span>"+ spArray.join('')+ "</span>";
+    }
+	
+	var operateEvents = {
+            'click .modify': function (e, value, row, index) {
+            	modifyItem('table','/article/edit/', '修改文章', index, 'size-wide');
+         },
+            'click .delete': function (e, value, row, index) {
+            	deleteItem('table', '/article/delete/', '是否删除文章', index, 'size-wide');
+         }
+        };
+	/*]]>*/
+	</script>
+	</div>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+	<!-- 表单文章 -->
+	<!-- <div class="panel"> -->
+	<form role="form" id="articleform" class="validate form-horizontal" autocomplete="off" th:object="${article}">
+		<div class="form-group">
+			<label class="col-sm-1 control-label" for="name">标题</label>
+			<div class="col-sm-7">
+				<input type="hidden" id="id" name="id" th:field="*{id}"></input>
+				<input type="text" class="form-control required" id="title" name="title" th:field="*{title}" placeholder="请输入文章标题"/>
+			</div>
+			<label class="col-sm-1 control-label" for="author">作者</label>
+			<div class="col-sm-3">
+				<input type="text" class="form-control required" id="author" name="author" th:field="*{author}" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-1 control-label" for="originalUrl">原文</label>
+			<div class="col-sm-7">
+				<input type="url" class="form-control" id="originalUrl" name="originalUrl" th:field="*{originalUrl}" />
+			</div>
+			<label class="col-sm-1 control-label" for="original">来源</label>
+			<div class="col-sm-3">
+				<input type="text" class="form-control" id="original" name="original" th:field="*{original}" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-1 control-label" for="intro">标签</label>
+			<div class="col-sm-7">
+				<input type="text" class="form-control tagsinput" id="tags" name="tags" th:field="*{tags}"/>
+			</div>
+			<label class="col-sm-1 control-label" for="parentId">类别</label>
+			<div class="col-sm-3">
+				<select class="form-control selectpicker required" id="articleType" name="articleType" th:field="*{articleType}">
+					<option th:each="aarticleType: ${articleTypes}" th:value="${articleType.type}" th:text="${articleType.name}">article</option>
+				</select>
+			</div>
+		</div>
+		<!-- <div class="form-group">
+			<label class="col-sm-1 control-label" for="intro">导读</label>
+			<div class="col-sm-11">
+				<textarea class="form-control" rows="2" id="intro" name="intro" th:field="*{intro}"></textarea>
+			</div>
+		</div> -->
+		<div class="form-group">
+			<div class="col-sm-12">
+				<script id="editor" name="editor" type="text/plain" style="width:100%;height:100%;"></script>
+			</div>
+		</div>
+	</form>
+	
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	$(document).ready(function(){
+		init_module();
+		var ue = UE.getEditor('editor');
+		$("#articleform").validate({
+			submitHandler:function(form){
+				$.post("/article/save", $(form).serialize(), function(result){
+					if (result.meta.code=="2000") {
+						toastr.success(result.meta.message);
+						BootstrapDialog.close(form);
+			        	$("#table").bootstrapTable("refresh");
+					} else {
+						toastr.error(result.meta.message);
+					}
+				});
+			}
+	    });
+	});
+	/*]]>*/
+	</script>
+</html>
