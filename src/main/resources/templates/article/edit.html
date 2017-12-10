@@ -27,6 +27,7 @@
 				<script id="content" name="content" type="text/plain" style="width:100%;height:100%;"></script>
 			</div>
 		</div>
+		<!--
 		<div class="form-group">
 			<label class="col-sm-1 control-label" for="original">来源</label>
 			<div class="col-sm-3">
@@ -37,6 +38,7 @@
 				<input type="url" class="form-control" id="originalUrl" name="originalUrl" th:field="*{originalUrl}" />
 			</div>
 		</div>
+		-->
 		<div class="form-group">
 			<label class="col-sm-1 control-label" for="author">作者</label>
 			<div class="col-sm-3">
@@ -44,7 +46,7 @@
 			</div>
 			<label class="col-sm-1 control-label" for="intro">标签</label>
 			<div class="col-sm-7">
-				<input type="text" class="form-control tagsinput" id="tags" name="tags" th:field="*{tags}"/>
+				<input type="text" class="form-control tagsinput" id="tags" name="tags" th:field="*{tags}" placeholder="标签逗号(,)隔开"/>
 			</div>
 		</div>
 	</form>

@@ -1,5 +1,7 @@
 package cn.lemon.dubbo.admin.controller;
 
+import cn.lemon.dubbo.account.api.IUserService;
+import cn.lemon.dubbo.account.dto.UserDto;
 import cn.lemon.dubbo.admin.authc.RequestPermissions;
 import cn.lemon.dubbo.system.api.IArticleService;
 import cn.lemon.dubbo.system.api.IDictService;
@@ -32,6 +34,8 @@ public class ArticleController extends BasicController {
 	private IDictService dictService;
 	@Reference
 	private IArticleService articleService;
+	@Reference
+	private IUserService userService;
 	
 	@RequestMapping(value="/index", method={RequestMethod.GET})
 	public String Index(Model model) {
@@ -43,7 +47,10 @@ public class ArticleController extends BasicController {
 	@RequestMapping(value="/add", method={RequestMethod.GET})
 	public String add(Model model) {
 		Long userId = this.getUserId();
-		model.addAttribute("article", new ArticleDto());
+		UserDto userDto = userService.getById(userId, userId);
+		ArticleDto articleDto = new ArticleDto();
+		articleDto.setAuthor(userDto.getNickName());
+		model.addAttribute("article", articleDto);
 		model.addAttribute("articleTypes", dictService.getList(userId, "articleType"));
 		return "article/edit";
 	}
