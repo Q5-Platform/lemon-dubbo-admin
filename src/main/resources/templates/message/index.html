@@ -109,8 +109,8 @@
 		}
 		return times;
 	}
-	
-	function operateFormatter(value, row, index) {
+
+	var operateFormatter = function(value, row, index) {
 		var spArray = new Array();
 		spArray.push('<i class="action fa-trash-o delete" title="删除">删除</i>');
         return "<span>"+ spArray.join('')+ "</span>";

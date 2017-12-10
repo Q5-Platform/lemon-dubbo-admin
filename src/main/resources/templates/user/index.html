@@ -144,7 +144,7 @@
 		return value? "<img style='width:30px; height:30px; margin-top: -11px; margin-bottom: -10px;' src='"+ value +"'/>": '';
 	}
 	
-	function operateFormatter(value, row, index) {
+	var operateFormatter = function(value, row, index) {
 		var spArray = new Array();
 		spArray.push('<i class="action fa-edit modify" title="修改">修改</i>');
 		if (row.auditted!=9) {

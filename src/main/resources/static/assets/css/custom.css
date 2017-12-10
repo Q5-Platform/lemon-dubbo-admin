@@ -261,6 +261,7 @@ label input[type="checkbox"] {
     text-overflow:ellipsis;
     white-space:nowrap;
 }
+
 /* table 选中悬停显示背景色
  .table-hover > tbody > tr:hover > td, .table-hover > tbody > tr:hover > th {
 	 background-color: #FBF5E5;

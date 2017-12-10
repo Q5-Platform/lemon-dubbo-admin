@@ -16,7 +16,7 @@
 	<div class="content" layout:fragment="content">
 	  <form class="form-inline panel-search" autocomplete="off">
 	  	<div class="form-group">
-	  		<label class="control-label" for="smenuId">所属类别</label>
+	  		<label class="control-label" for="sarticleType">所属类别</label>
 	  		<select class="selectpicker form-control " id="sarticleType" name="articleType">
 	  			<option value="">全部</option>
 				<option th:each="articleType:${articleTypes}" th:value="${articleType.type}" th:text="${articleType.name}">article</option>
@@ -58,9 +58,11 @@
 				<th data-checkbox="true" class="hidden"></th>  <!-- class="hidden" -->
 				<th data-field="id" data-width="5%">编号</th>
 				<th data-field="title" data-width="12%">文章标题</th>
-				<th data-field="url" data-width="12%">链接地址</th>
-				<th data-field="parentId" data-width="10%" data-formatter="parentFormatter" >所属类别</th>
-				<th data-field="sort" data-width="8%">排序</th>
+				<th data-field="author" data-width="5%">作者</th>
+				<th data-field="articleType" data-width="8%" data-formatter="typeFormatter" >所属类别</th>
+				<th data-field="viewNum" data-width="5%">阅读次数</th>
+				<th data-field="likeNum" data-width="5%">点赞次数</th>
+				<th data-field="dislikeNum" data-width="5%">拍砖次数</th>
 				<th data-field="operate" data-width="8%" data-align="center" data-formatter="operateFormatter" data-events="operateEvents">操作</th>
 			</tr>
 		</thead>
@@ -85,15 +87,15 @@
 		});
 	});
 	
-	var parentFormatter = function(value, row, index){		
-		var $option = $("#smenuId option[value='"+ value +"']");
+	var typeFormatter = function(value, row, index){
+		var $option = $("#sarticleType option[value='"+ value +"']");
 		if (!value || $option.length==0) {
 			return "<span>"+ value +"</span>";
 		}
 		return "<span>"+ $option.text() +"</span>";
 	}
-	
-	function operateFormatter(value, row, index) {
+
+    var operateFormatter = function(value, row, index) {
 		var spArray = new Array();
 		spArray.push('<i class="action fa-edit modify" title="修改">修改</i>');
 		spArray.push('<i class="action fa-trash-o delete" title="删除">删除</i>');

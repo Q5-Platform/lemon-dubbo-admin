@@ -1,16 +1,5 @@
 package cn.lemon.dubbo.admin.controller;
 
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import cn.lemon.dubbo.admin.authc.RequestPermissions;
 import cn.lemon.dubbo.system.api.IArticleService;
 import cn.lemon.dubbo.system.api.IDictService;
@@ -20,8 +9,16 @@ import cn.lemon.framework.query.Page;
 import cn.lemon.framework.query.QueryPage;
 import cn.lemon.framework.response.ResultResponse;
 import cn.lemon.framework.response.ServiceException;
-
 import com.alibaba.dubbo.config.annotation.Reference;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.HtmlUtils;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 /**
  * 文章管理接口
@@ -83,6 +80,12 @@ public class ArticleController extends BasicController {
 	@RequestMapping(value="/save", method={RequestMethod.POST})
 	public ResultResponse save(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, ArticleDto articleDto) throws ServiceException {
 		Long userId = this.getUserId();
+		try {
+			String content = HtmlUtils.htmlUnescape(articleDto.getContent());
+			articleDto.setContent(content);
+		} catch (Exception ex) {
+			logger.warn("文章内容转码失败", ex);
+		}
 		if (articleDto.getId()==null || articleDto.getId()==0) {
 			articleService.save(userId, articleDto);
 		} else {

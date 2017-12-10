@@ -54,7 +54,7 @@
 		});
 	});
 	
-	function operateFormatter(value, row, index) {
+	var operateFormatter = function(value, row, index) {
 		var spArray = new Array();
 		spArray.push('<i class="action fa-power-off delete" title="踢出用户">踢出</i>');
 		return "<span>"+ spArray.join('')+ "</span>";

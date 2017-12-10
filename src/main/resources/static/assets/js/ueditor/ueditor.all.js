@@ -1501,7 +1501,13 @@ utils.each(['String', 'Function', 'Array', 'Number', 'RegExp', 'Object', 'Date']
     }
 });
 
-
+/**
+ * html标签转义
+ * @param content
+ */
+function html2Escape(content) {
+    return content.replace(/[<>&"]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c];});
+}
 // core/EventBase.js
 /**
  * UE采用的事件基类
@@ -7240,7 +7246,7 @@ var fillCharReg = new RegExp(domUtils.fillChar, 'g');
             var root = UE.htmlparser(me.body.innerHTML,ignoreBlank);
             me.filterOutputRule(root);
             me.fireEvent('aftergetcontent', cmd,root);
-            return  root.toHtml(formatter);
+            return  html2Escape(root.toHtml(formatter));
         },
 
         /**

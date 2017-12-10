@@ -10,8 +10,8 @@
 				<input type="text" class="form-control required" id="title" name="title" th:field="*{title}" placeholder="请输入文章标题"/>
 			</div>
 			<div class="col-sm-3">
-				<select class="form-control selectpicker required" id="articleType" name="articleType" th:field="*{articleType}">
-					<option th:each="aarticleType: ${articleTypes}" th:value="${articleType.type}" th:text="${articleType.name}">article</option>
+				<select class="form-control selectpicker z-index-1200 required" id="articleType" name="articleType" th:field="*{articleType}">
+					<option th:each="articleType: ${articleTypes}" th:value="${articleType.type}" th:text="${articleType.name}">article</option>
 				</select>
 			</div>
 		</div>
