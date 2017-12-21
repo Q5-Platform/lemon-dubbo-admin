@@ -7,7 +7,7 @@
 		<div class="form-group">
 			<label class="col-sm-4 control-label" for="mobile">手机号</label>
 			<div class="col-sm-6">
-				<input type="hidden" id="id" name="id" th:field="*{id}"></input>
+				<input type="hidden" id="userId" name="userId" th:field="*{userId}"></input>
 				<input type="text" class="form-control" id="mobile" name="mobile" th:field="*{mobile}" readonly="readonly"/>
 			</div>
 		</div>
@@ -43,15 +43,15 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-sm-4 control-label" for="auditted5">认证结果</label>
+			<label class="col-sm-4 control-label" for="audited5">认证结果</label>
 			<div class="col-sm-6">
 				<label class="radio-label">
-					<input type="radio" id="auditted5" name="auditted" checked="checked" value="5"/>
+					<input type="radio" id="audited5" name="audited" checked="checked" value="5"/>
 					不通过
 				</label>
 				&nbsp;
 				<label class="radio-label">
-					<input type="radio" id="auditted9" name="auditted" value="9"/>
+					<input type="radio" id="audited9" name="audited" value="9"/>
 					通过
 				</label>
 			</div>
@@ -70,7 +70,7 @@
 		init_module();
 		$("#roleform").validate({
 			submitHandler:function(form){
-				$.post("/user/auditted", $(form).serialize(), function(result){
+				$.post("/user/audited", $(form).serialize(), function(result){
 					if (result.meta.code=="2000") {
 						toastr.success(result.meta.message);
 						BootstrapDialog.close(form);

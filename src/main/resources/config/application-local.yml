@@ -24,16 +24,18 @@ dubbo:
     check: false
   registry:
     protocol: zookeeper
-    address: zookeeper:2181,zookeeper:2182,zookeeper:2183
+    address: zookeeper:2181
     check: false
     register: true
     subscribe: true
+    file: ${user.home}/dubbo-registry-admin.cache
   annotation:
     package: cn.lemon.dubbo.admin.controller, cn.lemon.dubbo.admin.authc  # 扫描注解包路径，多个包用逗号分隔，不填pacakge表示扫描当前ApplicationContext中所有的类
   protocol:
     name: dubbo
     port: -1
     threads: 100
+    lazy: true
     accessLog: true
 
 # 日志设定

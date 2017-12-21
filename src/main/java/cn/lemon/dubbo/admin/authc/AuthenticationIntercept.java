@@ -37,7 +37,7 @@ public class AuthenticationIntercept extends HandlerInterceptorAdapter {
 		String token = CookieUtil.getCookie(request, TOKEN);
 		//boolean isAuthenticated = authenticationService.isAuthenticated(token);
 		long userId = authenticationService.getSubject(token);
-		if (userId>=1) {
+		if (userId>=1L) {
 			request.setAttribute("userId", userId);
 			return true;
 		}

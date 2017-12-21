@@ -35,7 +35,7 @@ public class UserVo extends BasicVoBean {
 	private String remark;
 	/** 个性标签 如: 小清新,生活达人,热血小伙 **/
 	private String[] tags;
-	/** 最后登录时间 **/
+	/** 是否审核 **/
 	private Integer auditted;
 	
 	public String getMobile() {

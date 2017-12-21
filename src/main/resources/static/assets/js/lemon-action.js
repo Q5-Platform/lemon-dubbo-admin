@@ -132,11 +132,13 @@ function appendItem(url, title, size, buttons){
  * @param buttons 操作按钮
  */
 function modifyItem(table, url, title, index, size, buttons){
-	var id = getRowId(table, index);
-	if (!id) {
+    var pid = getPrimaryKey(url);
+    var id = getRowId(table, pid, index);
+    if (!id) {
 		toastr.warning("请选择需要修改的数据");
 		return;
 	}
+    url = url.replace("{"+ pid +"}", "");
 	if (!buttons) {
 		buttons = [actionButtons.cancel, actionButtons.save];
 	}
@@ -164,11 +166,13 @@ function modifyItem(table, url, title, index, size, buttons){
  * @param size 窗体大小 size-normal(default), size-small, size-wide, size-large
  */
 function viewItem(table, url, title, index, size){
-	var id = getRowId(table, index);
-	if (!id) {
+    var pid = getPrimaryKey(url);
+    var id = getRowId(table, pid, index);
+    if (!id) {
 		toastr.warning("请选择需要查看的数据");
 		return;
 	}
+    url = url.replace("{"+ pid +"}", "");
 	BootstrapDialog.show({
 		size: size || 'size-normal',
 		cssClass: size,
@@ -192,12 +196,14 @@ function viewItem(table, url, title, index, size){
  * @param size 窗体大小 size-normal, size-small(default), size-wide, size-large
  */
 function deleteItem(table, url, content, index, size){
-	var id = getRowId(table, index);
+    var pid = getPrimaryKey(url);
+    var id = getRowId(table, pid, index);
 	if (!id) {
 		toastr.warning("请选择需要删除的数据");
 		return;
 	}
-	BootstrapDialog.confirm({
+    url = url.replace("{"+ pid +"}", "");
+    BootstrapDialog.confirm({
 		size: size || 'size-small',
 		cssClass: size,
         title: '删除',
@@ -234,11 +240,13 @@ function deleteItem(table, url, content, index, size){
  * @param size 窗体大小 size-normal, size-small(default), size-wide, size-large
  */
 function decideItem(table, url, content, index, size){
-	var id = getRowId(table, index);
+	var pid = getPrimaryKey(url);
+	var id = getRowId(table, pid, index);
 	if (!id) {
 		toastr.warning("请选择需要操作的数据");
 		return;
 	}
+    url = url.replace("{"+ pid +"}", "");
 	BootstrapDialog.confirm({
 		size: size || 'size-small',
 		cssClass: size,
@@ -292,14 +300,21 @@ function actionItem(url, title, size, buttons){
 	});
 }
 
-function getRowId(table, index) {
+function getRowId(table, mid, index) {
 	if (index!=null && index>=0) {
 		$('#'+table).bootstrapTable("check", index);
 	}
 	var row = $('#'+table).bootstrapTable('getSelections');
-	console.log(row)
+	//console.log(row)
 	if (row && row.length>0){
-		return row[0].id;
+		return row[0][mid];
 	}
 	return undefined;
+}
+
+//获取操作的主键
+function getPrimaryKey(url) {
+    var m = /\{(.+?)\}/;
+    var mid = url.match(m); //匹配变量名称
+    return mid? mid[1]: "id";
 }

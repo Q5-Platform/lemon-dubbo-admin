@@ -54,7 +54,7 @@ public class MessageTemplateController extends BasicController {
 	}
 	
 	@RequestMapping(value="/edit/{id}", method={RequestMethod.GET})
-	public String edit(Model model, @PathVariable("id") Long id) {
+	public String edit(Model model, @PathVariable("id") Integer id) {
 		Long userId = this.getUserId();
 		model.addAttribute("messageTemplate", messageTemplateService.getById(userId, id));
 		model.addAttribute("pushMethods", dictService.getList(userId, "PushMethod"));
@@ -63,7 +63,7 @@ public class MessageTemplateController extends BasicController {
 	}
 	
 	@RequestMapping(value="/view/{id}", method={RequestMethod.GET})
-	public String view(Model model, @PathVariable("id") Long id) {
+	public String view(Model model, @PathVariable("id") Integer id) {
 		Long userId = this.getUserId();
 		model.addAttribute("messageTemplate", messageTemplateService.getById(userId, id));
 		model.addAttribute("pushMethods", dictService.getList(userId, "PushMethod"));
@@ -99,7 +99,7 @@ public class MessageTemplateController extends BasicController {
 	@ApiOperation(value="删除消息模板信息",notes="返回success")
 	@ResponseBody
 	@RequestMapping(value="/delete/{id}", method={RequestMethod.POST})
-	public ResultResponse delete(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, @PathVariable("id") Long id) throws ServiceException {
+	public ResultResponse delete(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, @PathVariable("id") Integer id) throws ServiceException {
 		Long userId = this.getUserId();
 		messageTemplateService.delete(userId, id);
 		return resultResponse.success();

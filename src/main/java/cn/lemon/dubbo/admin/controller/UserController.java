@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.lemon.dubbo.account.api.IUserService;
-import cn.lemon.dubbo.account.dto.UserAudittedDto;
+import cn.lemon.dubbo.account.dto.UserAuditedDto;
 import cn.lemon.dubbo.account.dto.UserDto;
 import cn.lemon.dubbo.account.dto.UserOnlineDto;
 import cn.lemon.dubbo.admin.authc.RequestPermissions;
@@ -74,32 +74,32 @@ public class UserController extends BasicController {
 	}
 	
 	@RequestPermissions({"admin_user"})
-	@RequestMapping(value="/edit/{id}", method={RequestMethod.GET})
-	public String edit(Model model, @PathVariable("id") Long id) {
+	@RequestMapping(value="/edit/{mId}", method={RequestMethod.GET})
+	public String edit(Model model, @PathVariable("mId") Long mId) {
 		Long userId = this.getUserId();
-		model.addAttribute("user", userService.getById(userId, id));
+		model.addAttribute("user", userService.getByUserId(userId, mId));
 		model.addAttribute("areas", areaService.getList(userId, 0));
 		model.addAttribute("roles", roleService.getList(userId));
-		model.addAttribute("roleIds", roleService.getRoleIds(id));
+		model.addAttribute("roleIds", roleService.getRoleIds(mId));
 		return "user/edit";
 	}
 	
 	@RequestPermissions({"admin_user"})
-	@RequestMapping(value="/view/{id}", method={RequestMethod.GET})
-	public String view(Model model, @PathVariable("id") Long id) {
+	@RequestMapping(value="/view/{mId}", method={RequestMethod.GET})
+	public String view(Model model, @PathVariable("mId") Long mId) {
 		Long userId = this.getUserId();
-		model.addAttribute("user", userService.getById(userId, id));
+		model.addAttribute("user", userService.getByUserId(userId, mId));
 		model.addAttribute("areas", areaService.getList(userId, 0));
 		model.addAttribute("roles", roleService.getList(userId));
-		model.addAttribute("roleIds", roleService.getRoleIds(id));
+		model.addAttribute("roleIds", roleService.getRoleIds(mId));
 		return "user/edit";
 	}
 	
 	@RequestPermissions({"admin_user"})
-	@RequestMapping(value="/audit/{id}", method={RequestMethod.GET})
-	public String audit(Model model, @PathVariable("id") Long id) {
+	@RequestMapping(value="/audit/{mId}", method={RequestMethod.GET})
+	public String audit(Model model, @PathVariable("mId") Long mId) {
 		Long userId = this.getUserId();
-		model.addAttribute("user", userService.getAudittedById(userId, id));
+		model.addAttribute("user", userService.getAuditedById(userId, mId));
 		return "user/audit";
 	}
 	
@@ -107,12 +107,12 @@ public class UserController extends BasicController {
 	@ResponseBody
 	@RequestPermissions({"admin_user"})
 	@RequestMapping(value="/pager", method={RequestMethod.GET})
-	public ResultResponse pager(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, Long id, String mobile, String nickName, Integer auditted, QueryPage queryPage) {
+	public ResultResponse pager(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, Long mId, String mobile, String nickName, Integer audited, QueryPage queryPage) {
 		Long userId = this.getUserId();
-		queryPage.setCondition("id", id);
+		queryPage.setCondition("userId", mId);
 		queryPage.setCondition("mobile", mobile);
 		queryPage.setCondition("nickName", nickName);
-		queryPage.setCondition("auditted", auditted);
+		queryPage.setCondition("audited", audited);
 		Page page = userService.getListByPager(userId, queryPage);
 		return resultResponse.success(page);
 	}
@@ -133,7 +133,7 @@ public class UserController extends BasicController {
 	@RequestMapping(value="/save", method={RequestMethod.POST})
 	public ResultResponse save(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, UserDto userDto, String password, Integer[] roleIds) throws ServiceException {
 		Long userId = this.getUserId();
-		if (userDto.getId()==null || userDto.getId()==0) {
+		if (userDto.getUserId()==null || userDto.getUserId()==0) {
 			userService.save(userId, userDto, password, roleIds);
 		} else {
 			userService.update(userId, userDto, password, roleIds);
@@ -144,50 +144,50 @@ public class UserController extends BasicController {
 	@ApiOperation(value="删除用户信息",notes="返回success")
 	@ResponseBody
 	@RequestPermissions({"admin_user"})
-	@RequestMapping(value="/delete/{id}", method={RequestMethod.POST})
-	public ResultResponse delete(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, @PathVariable("id") Long id) {
+	@RequestMapping(value="/delete/{mId}", method={RequestMethod.POST})
+	public ResultResponse delete(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, @PathVariable("mId") Long mId) {
 		Long userId = this.getUserId();
-		userService.delete(userId, id);
+		userService.delete(userId, mId);
 		return resultResponse.success();
 	}
 	
 	@ApiOperation(value="认证用户",notes="返回success")
 	@ResponseBody
 	@RequestPermissions({"admin_user"})
-	@RequestMapping(value="/auditted", method={RequestMethod.POST})
-	public ResultResponse auditted(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, UserAudittedDto userAudittedDto) {
+	@RequestMapping(value="/audited", method={RequestMethod.POST})
+	public ResultResponse audited(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, UserAuditedDto userAuditedDto) {
 		Long userId = this.getUserId();
-		userService.auditted(userId, userAudittedDto);
+		userService.audited(userId, userAuditedDto);
 		return resultResponse.success();
 	}
 	
 	@ApiOperation(value="冻结账号",notes="返回success")
 	@ResponseBody
 	@RequestPermissions({"admin_user"})
-	@RequestMapping(value="/freezed/{id}", method={RequestMethod.POST})
-	public ResultResponse freezed(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, @PathVariable("id") Long id) {
+	@RequestMapping(value="/freezed/{mId}", method={RequestMethod.POST})
+	public ResultResponse freezed(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, @PathVariable("mId") Long mId) {
 		Long userId = this.getUserId();
-		userService.freezed(userId, id);
+		userService.freezed(userId, mId);
 		return resultResponse.success();
 	}
 	
 	@ApiOperation(value="解冻账号",notes="返回success")
 	@ResponseBody
 	@RequestPermissions({"admin_user"})
-	@RequestMapping(value="/unfreeze/{id}", method={RequestMethod.POST})
-	public ResultResponse unfreeze(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, @PathVariable("id") Long id) {
+	@RequestMapping(value="/unfreeze/{mId}", method={RequestMethod.POST})
+	public ResultResponse unfreeze(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, @PathVariable("mId") Long mId) {
 		Long userId = this.getUserId();
-		userService.unfreeze(userId, id);
+		userService.unfreeze(userId, mId);
 		return resultResponse.success();
 	}
 	
 	@ApiOperation(value="在线用户强制踢出",notes="返回success")
 	@ResponseBody
 	@RequestPermissions({"admin_online"})
-	@RequestMapping(value="/online/kill/{id}", method={RequestMethod.POST})
-	public ResultResponse online(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, @PathVariable String id) {
+	@RequestMapping(value="/online/kill/{mToken}", method={RequestMethod.POST})
+	public ResultResponse online(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, @PathVariable("mToken") String mToken) {
 		Long userId = this.getUserId();
-		userService.kill(userId, id);
+		userService.kill(userId, mToken);
 		return resultResponse.success();
 	}
 }

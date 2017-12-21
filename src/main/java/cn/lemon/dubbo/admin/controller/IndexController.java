@@ -122,7 +122,7 @@ public class IndexController extends BasicController {
     @RequestMapping(value="/user/profile", method=RequestMethod.GET)
 	public ResultResponse profile(@ApiParam(value="授权凭证", required=true) @CookieValue(value=TOKEN, required=true) String token) {
     	Long userId = this.getUserId();
-    	UserDto user = userService.getById(userId, userId);
+    	UserDto user = userService.getByUserId(userId, userId);
 		return resultResponse.success(user);
 	}
     

@@ -71,7 +71,7 @@ public class MessageController extends BasicController {
 	}
 		
 	@RequestMapping(value="/view/{id}", method={RequestMethod.GET})
-	public String view(Model model, @PathVariable("id") Long id) {
+	public String view(Model model, @PathVariable("id") Integer id) {
 		Long userId = this.getUserId();
 		model.addAttribute("messageRecord", messageRecordService.getById(userId, id));
 		model.addAttribute("pushMethods", dictService.getList(userId, "pushMethod"));
@@ -115,7 +115,7 @@ public class MessageController extends BasicController {
 	@ApiOperation(value="发送信息",notes="返回success")
 	@ResponseBody
 	@RequestMapping(value="/send", method={RequestMethod.POST})
-	public ResultResponse send(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, String messageType, String receiver, Long receiverId, Timestamp scheduleTime, @RequestParam Map<String, String> params) throws ServiceException {
+	public ResultResponse send(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, String messageType, String receiver, Integer receiverId, Timestamp scheduleTime, @RequestParam Map<String, String> params) throws ServiceException {
 		Long userId = this.getUserId();
 		messageService.sendMessage(userId, messageType, receiver, receiverId, scheduleTime, params);
 		return resultResponse.success();
@@ -124,7 +124,7 @@ public class MessageController extends BasicController {
 	@ApiOperation(value="删除消息",notes="返回success")
 	@ResponseBody
 	@RequestMapping(value="/delete/{id}", method={RequestMethod.POST})
-	public ResultResponse delete(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, @PathVariable("id") Long id) throws ServiceException {
+	public ResultResponse delete(@ApiParam(value="授权凭证") @CookieValue(value=TOKEN, required=true) String token, @PathVariable("id") Integer id) throws ServiceException {
 		Long userId = this.getUserId();
 		messageRecordService.delete(userId, id);
 		return resultResponse.success();

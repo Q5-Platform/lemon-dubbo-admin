@@ -7,8 +7,8 @@
 		<div class="form-group">
 			<label class="col-sm-4 control-label" for="mobile">手机号</label>
 			<div class="col-sm-6">
-				<input type="hidden" id="id" name="id" th:field="*{id}"></input>
-				<input type="text" class="form-control required" id="mobile" name="mobile" th:field="*{mobile}" placeholder="请输入登录手机号" th:readonly="*{!#strings.isEmpty(id)}"/>
+				<input type="hidden" id="userId" name="userId" th:field="*{userId}"></input>
+				<input type="text" class="form-control required" id="mobile" name="mobile" th:field="*{mobile}" placeholder="请输入登录手机号" th:readonly="*{!#strings.isEmpty(userId)}"/>
 			</div>
 		</div>
 		<div class="form-group">
@@ -20,7 +20,7 @@
 		<div class="form-group">
 			<label class="col-sm-4 control-label" for="password">密码</label>
 			<div class="col-sm-6">
-				<input type="password" class="form-control" th:classappend="*{#strings.isEmpty(id)}? 'required'" minlength="6" maxlength="20" id="password" name="password" placeholder="请输入登录密码"/>
+				<input type="password" class="form-control" th:classappend="*{#strings.isEmpty(userId)}? 'required'" minlength="6" maxlength="20" id="password" name="password" placeholder="请输入登录密码"/>
 			</div>
 		</div>
 		<div class="form-group">

@@ -19,9 +19,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.HtmlUtils;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-
 /**
  * 文章管理接口
  * @author lonyee
@@ -47,7 +44,7 @@ public class ArticleController extends BasicController {
 	@RequestMapping(value="/add", method={RequestMethod.GET})
 	public String add(Model model) {
 		Long userId = this.getUserId();
-		UserDto userDto = userService.getById(userId, userId);
+		UserDto userDto = userService.getByUserId(userId, userId);
 		ArticleDto articleDto = new ArticleDto();
 		articleDto.setAuthor(userDto.getNickName());
 		model.addAttribute("article", articleDto);
